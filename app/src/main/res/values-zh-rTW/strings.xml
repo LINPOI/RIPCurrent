@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">離岸流</string>
+    <string name="openPage">開啟分頁</string>
+    <string name="cameraPage">拍攝分頁</string>
+    <string name="settingPage">設定分頁</string>
+    <string name="press_back_again_to_exit">再次滑動已離開</string>
+    <string name="shooting_successful">拍攝成功，請稍等</string>
+    <string name="setting">設定</string>
+    <string name="what_is_rip_current">什麼是離岸流</string>
+    <string name="rip_current">離岸流</string>
+    <string name="it_is_a_kind_of_sea_current_that_carries_from_the_coast_to_the_sea_therefore_when_you_go_to_the_beach_to_play_in_the_water_you_should_first_observe_the_terrain_and_sea_surface_conditions_if_you_see_waves_on_both_sides_like_the_picture_above_but_a_relatively_calm_and_wave_free_area_in_the_middle_you_should_avoid_that_area_play_in_water_and_stay_away_as_much_as_possible">是從海岸帶到海中的一種海流，所以到海邊戲水時應先觀察地形與海面狀況，如果看到像上圖兩邊都是海浪，中間卻相對平靜無浪的區域，應該避免在該處戲水，盡量遠離。</string>
+    <string name="how_to_deal_with_being_carried_out_to_sea_by_rip_currents">受離岸流帶出外海如何應變</string>
+    <string name="rip_currents_will_only_carry_people_away_from_the_coast_but_will_not_sweep_them_to_the_bottom_of_the_sea_if_you_take_enough_breath_the_human_body_will_float_and_you_can_save_yourself_by_doing_a_basic_jellyfish_float_don_t_swim_directly_to_shore_and_don_t_fight_the_current">離岸流只會把人帶離海岸，不會把人捲到海底。吸足氣，人體就會漂浮了，基本的水母飄便能自救。不要直接往岸上游，不要對抗海流。</string>
+    <string name="self_rescue_method_take_it_to_the_open_sea_with_the_current_and_then_swim_back_to_the_shore_with_the_current">自救方式：隨海流帶到外海之後，再順海流游回岸上。</string>
+    <string name="open_photo_album">打開相冊</string>
+</resources>
