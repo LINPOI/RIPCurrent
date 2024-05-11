@@ -1,5 +1,6 @@
 package com.example.ripcurrent.page
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -22,6 +23,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import coil.compose.rememberImagePainter
 import com.example.ripcurrent.R
 import com.example.ripcurrent.Screens
 import com.example.ripcurrent.tool.DoubleBackHandler
@@ -34,19 +36,26 @@ fun OpenPage(modifier: Modifier = Modifier, navController: NavHostController) {
     Scaffold (
         topBar = {
             Row(modifier= Modifier
-                .fillMaxWidth().border(0.5.dp, MaterialTheme.colorScheme.onBackground).padding(bottom = 10.dp),
+                .fillMaxWidth()
+                .border(0.5.dp, MaterialTheme.colorScheme.onBackground)
+                .padding(bottom = 10.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center){
                 val location= UdmtextFields(stringResource = R.string.nul, modifier = Modifier, selectFieldsStyle = 1, keyboardType = KeyboardType.Text){
                     //如同點選搜尋時執行指令
                 }
-                Icon( imageVector =  Icons.TwoTone.Search , contentDescription = null,modifier.padding(start = 10.dp).size(40.dp).clickable {  })
+                Icon( imageVector =  Icons.TwoTone.Search , contentDescription = null,
+                    modifier
+                        .padding(start = 10.dp)
+                        .size(40.dp)
+                        .clickable { })
             }
 
         },
         bottomBar= {
             Row (modifier= Modifier
-                .fillMaxWidth().border(0.5.dp, MaterialTheme.colorScheme.onBackground),
+                .fillMaxWidth()
+                .border(0.5.dp, MaterialTheme.colorScheme.onBackground),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ){
@@ -69,7 +78,9 @@ fun OpenPage(modifier: Modifier = Modifier, navController: NavHostController) {
         LazyColumn(
             modifier.padding(pad)
         ) {
-
+            item{
+                Image(painter = rememberImagePainter(data ="http://192.168.50.160/rip_current/photo/get/one/www.png" ), contentDescription = null)
+            }
         }
 
     }

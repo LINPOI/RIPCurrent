@@ -50,6 +50,17 @@ android {
 }
 
 dependencies {
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.okhttp3:okhttp:4.0.1")
+    // Moshi
+    implementation("com.squareup.moshi:moshi:1.14.0")
+    implementation("com.squareup.moshi:moshi-kotlin:1.14.0")
+    implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
+
+    // OKHttp Interceptor
+    implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
     //繪圖用
     implementation ("io.coil-kt:coil-compose:1.4.0")
     implementation ("io.getstream:sketchbook:1.0.4")
