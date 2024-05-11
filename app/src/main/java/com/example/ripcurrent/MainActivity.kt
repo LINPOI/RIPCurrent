@@ -21,10 +21,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.ripcurrent.page.CameraPage
+import com.example.ripcurrent.page.CoilImage
 import com.example.ripcurrent.ui.theme.RipcurrentTheme
-import com.example.ripcurrent2.page.CameraPage
 import com.example.ripcurrent.page.EditPhotoPage
-import com.example.ripcurrent2.page.IntroductionToRipCurrentsPage
+import com.example.ripcurrent.page.IntroductionToRipCurrentsPage
+
 import com.example.ripcurrent.page.OpenPage
 import com.example.ripcurrent.page.SettingPage
 
@@ -37,14 +39,14 @@ enum class Screens {
 }
 
 class MainActivity : ComponentActivity() {
-
+var isGranted = false
     private val cameraPermissionRequest =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { _ ->
-//            if (isGranted) {
-//
-//            } else {
-//                // Camera permission denied
-//            }
+            if (isGranted) {
+
+            } else {
+                // Camera permission denied
+            }
 
         }
 
@@ -68,7 +70,7 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 //GlideImage()
                 AppNavigator()
-
+                //CoilImage()
             }
         }
     }

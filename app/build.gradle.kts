@@ -1,4 +1,6 @@
 plugins {
+ //   id("com.android.application")
+    id("com.google.gms.google-services")
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
 }
@@ -50,6 +52,12 @@ android {
 }
 
 dependencies {
+    //google
+    implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
+    implementation("com.google.firebase:firebase-analytics")
+    implementation ("com.firebaseui:firebase-ui-auth:7.2.0")
+    //facebook
+    implementation ("com.facebook.android:facebook-android-sdk:8.x")
     // Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
@@ -62,7 +70,7 @@ dependencies {
     // OKHttp Interceptor
     implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
     //繪圖用
-    implementation ("io.coil-kt:coil-compose:1.4.0")
+    implementation ("io.coil-kt:coil-compose:2.5.0")
     implementation ("io.getstream:sketchbook:1.0.4")
     //分頁
     implementation(libs.androidx.navigation.compose)

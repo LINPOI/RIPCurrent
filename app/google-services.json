@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "392500820152",
+    "project_id": "norse-ward-414800",
+    "storage_bucket": "norse-ward-414800.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:392500820152:android:c8d2752bda77d95dce5c4d",
+        "android_client_info": {
+          "package_name": "com.example.ripcurrent"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFVUOPhku3qjFML5P__Rctz3XwwMvsmxY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
