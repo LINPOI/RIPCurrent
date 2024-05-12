@@ -12,7 +12,12 @@
           "package_name": "com.example.ripcurrent"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "392500820152-fb76bsj06ot4lbc89383e6l78898e6n7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDFVUOPhku3qjFML5P__Rctz3XwwMvsmxY"
@@ -20,7 +25,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "392500820152-fb76bsj06ot4lbc89383e6l78898e6n7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
