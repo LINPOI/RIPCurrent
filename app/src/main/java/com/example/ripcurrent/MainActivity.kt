@@ -39,6 +39,7 @@ enum class Screens {
 }
 
 class MainActivity : ComponentActivity() {
+
 var isGranted = false
     private val cameraPermissionRequest =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { _ ->

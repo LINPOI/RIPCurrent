@@ -1,4 +1,4 @@
-package com.example.ripcurrent
+package com.example.ripcurrent.tool.googleSignIn
 
 import android.content.Context
 import com.example.ripcurrent.R

@@ -1,13 +1,13 @@
-package com.example.ripcurrent
+package com.example.ripcurrent.tool.googleSignIn
 
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.activity.result.contract.ActivityResultContract
-import com.example.ripcurrent.getGoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import okhttp3.internal.concurrent.Task
+import com.google.android.gms.tasks.Task
+
 
 class AuthResultContract : ActivityResultContract<Int, Task<GoogleSignInAccount>?>() {
     override fun createIntent(context: Context, input: Int): Intent =

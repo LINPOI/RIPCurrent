@@ -84,6 +84,7 @@ dependencies {
     //儲存用
     implementation ("com.google.code.gson:gson:2.10.1")
     implementation(libs.firebase.auth)
+    implementation(libs.androidx.appcompat)
     //camera
     val cameraxVersion = "1.3.3"
     implementation ("androidx.camera:camera-core:${cameraxVersion}")
