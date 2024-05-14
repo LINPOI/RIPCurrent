@@ -7,7 +7,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 object Retrofit {
-    private const val BASE_URL = "http://192.168.50.160/rip_current/photo/get/one/"
+    private const val BASE_URL = "http://192.168.50.160/rip_current/"
     private val logging = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
 
     // 攔截器
@@ -21,7 +21,7 @@ object Retrofit {
         .build()
 
     //
-    val aPIService: ApiService by lazy {
+    val apiService: ApiService by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory( MoshiConverterFactory.create(moshi))
