@@ -14,7 +14,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun UdmImage(imageResource:Int,width: Dp =71.9.dp,height:Dp=60.dp, press:()->Unit={}) {
+fun UdmImage(imageResource:Int,size:Dp=71.dp,width: Dp =size,height:Dp=size, press:()->Unit={}) {
+    //71.9 60
     Image(
         painter = painterResource(id = imageResource),
         contentDescription = null,
@@ -30,7 +31,7 @@ fun UdmImage(imageResource:Int,width: Dp =71.9.dp,height:Dp=60.dp, press:()->Uni
                         press()
                     },
                     onLongPress = {
-                        //長案設置
+                        //長按設置
                     }
                 )
             }

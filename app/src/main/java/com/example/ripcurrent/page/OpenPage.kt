@@ -23,7 +23,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -34,7 +33,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import coil.annotation.ExperimentalCoilApi
-import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import com.example.ripcurrent.R
 import com.example.ripcurrent.Screens
@@ -107,7 +105,7 @@ fun OpenPage(modifier: Modifier = Modifier, navController: NavHostController) {
             }
             item {
                 Button(onClick = {
-                    urls= "https://192.168.50.160/rip_current/test/get/check"
+                    urls= "http://192.168.50.160/rip_current/photo/get/one/www.png"
                 }) {
                     Text(text = "重置")
                 }
