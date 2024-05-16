@@ -45,7 +45,7 @@ fun UdmtextFields(stringResource: Int,
                   imeAction: ImeAction= ImeAction.Done,//設定動作按鈕
                   passwordTextField:Boolean=false,
                   modifier:Modifier=Modifier.fillMaxWidth(),
-                  selectFieldsStyle:Int=0,
+                  selectFieldsStyle:Int=1,
                   setDone:(String)->Unit={},   //設定按下結束時行為
                ):String{
     var input by remember {

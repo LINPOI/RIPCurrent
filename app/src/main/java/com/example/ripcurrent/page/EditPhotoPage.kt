@@ -40,7 +40,7 @@ import com.example.ripcurrent.MainActivity
 import com.example.ripcurrent.Screens
 import com.example.ripcurrent.tool.HandleBackPress
 import com.example.ripcurrent.tool.readDataClass
-import com.example.ripcurrent.tool.saveBitmapAsPNG
+import com.example.ripcurrent.tool.SaveBitmapAsPNG
 import io.getstream.sketchbook.Sketchbook
 import io.getstream.sketchbook.rememberSketchbookController
 
@@ -131,7 +131,7 @@ fun EditPhotoPage(modifier: Modifier, navController: NavHostController) {
 
                         .clickable {
                             val bitmap = sketchbookController.getSketchbookBitmap().asAndroidBitmap()
-                            saveBitmapAsPNG(bitmap, activity)
+                            SaveBitmapAsPNG(bitmap, activity)
 
                         })
             }

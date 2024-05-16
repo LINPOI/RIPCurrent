@@ -19,7 +19,7 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 
 // 將 Bitmap 保存為 PNG 檔案
-fun saveBitmapAsPNG(bitmap: Bitmap, context: Context) {
+fun SaveBitmapAsPNG(bitmap: Bitmap, context: Context) {
     // 定義要保存的圖片的相關信息
     val mimeType = "image/jpeg"
     val relativeLocation = Environment.DIRECTORY_PICTURES + File.separator + "ripcurrentX-Image"
@@ -44,6 +44,11 @@ fun saveBitmapAsPNG(bitmap: Bitmap, context: Context) {
             // 關閉OutputStream
 
         }
+/*
+
+  將圖片變為bitmap，再轉換為ByteArray，最後變為filePart
+
+*/
         // 伺服器圖片格式編輯
         val serverOutputstream = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, serverOutputstream)
