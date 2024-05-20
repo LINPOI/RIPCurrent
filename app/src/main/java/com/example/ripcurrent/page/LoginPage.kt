@@ -22,12 +22,18 @@ import com.example.ripcurrent.R
 import com.example.ripcurrent.tool.Check.ExtraSpaces
 import com.example.ripcurrent.tool.Check.Length
 import com.example.ripcurrent.tool.Check.NullData
+import com.example.ripcurrent.tool.Check.changeGmailAddress
 import com.example.ripcurrent.tool.Data.Member
+import com.example.ripcurrent.tool.Data.Screens
 import com.example.ripcurrent.tool.UdmtextFields
+import com.example.ripcurrent.tool.http.Retrofit
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Composable
-fun OpenPage(modifier: Modifier, navController: NavHostController) {
-    val member = remember { mutableStateOf(Member()) }
+fun SignInPage(modifier: Modifier, navController: NavHostController) {
+    var member by remember { mutableStateOf(Member()) }
     var wrong by remember { mutableIntStateOf(R.string.nul) }
     Surface(
         modifier = modifier
@@ -36,22 +42,34 @@ fun OpenPage(modifier: Modifier, navController: NavHostController) {
             modifier.padding(16.dp),
             verticalArrangement = Arrangement.Center,
         ) {
-            member.value.account =
+            member.MemberGmail =
                 UdmtextFields(stringResource = R.string.account, imeAction = ImeAction.Next)
 
             UdmtextFields(stringResource = R.string.password, passwordTextField = true) {
-                member.value.account = ExtraSpaces(member.value.account)
-                member.value.password = ExtraSpaces(it)
-                Log.i("linpoi", "${member.value.account},$it")
+                member.MemberGmail = ExtraSpaces(member.MemberGmail)
+                member.MemberPassword = ExtraSpaces(it)
+                Log.i("linpoi", "${member.MemberGmail},$it")
                 if (!NullData(
-                        member.value.account,
-                        member.value.password
-                    ) && Length(member.value.password, member.value.account)
+                        member.MemberGmail,
+                        member.MemberPassword
+                    ) && Length(member.MemberPassword, member.MemberGmail)
                 ) {
                     //登入成功
+
+                    member.MemberGmail= changeGmailAddress(member.MemberGmail).toString()
+                    Log.i("linpoi", "${member.MemberGmail},${it}成功")
+                    CoroutineScope(Dispatchers.Main).launch {
+                        try {
+                            Retrofit.apiService.insertMember(member)
+                            navController.navigate(Screens.MainPage.name)
+                        }catch (e:Exception){
+                            Log.i("linpoi", e.toString())
+                        }
+
+                        }
                 } else {
                     //登入失敗
-                    wrong =Wrong(member.value.account,member.value.password)
+                    wrong =Wrong(member.MemberGmail,member.MemberPassword)
                 }
             }
             Text(text = stringResource(id = wrong), color = Color.Red)
