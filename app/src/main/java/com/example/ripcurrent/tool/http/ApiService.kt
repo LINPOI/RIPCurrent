@@ -31,3 +31,5 @@ interface ApiService {
 //    // 學生帳號登入
 //    @POST("query/checkaccount") suspend fun checkaccount(@Body apiService: ApiService): Response<AccountCheckResponse>
 }
+//LaunchedEffect(Unit) {}
+// CoroutineScope(Dispatchers.Main).launch {}

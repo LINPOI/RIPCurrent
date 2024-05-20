@@ -28,4 +28,5 @@
     <string name="click_ok_to_register">click OK to register</string>
     <string name="ok">ok</string>
     <string name="cancel">cancel</string>
+    <string name="name">Name</string>
 </resources>

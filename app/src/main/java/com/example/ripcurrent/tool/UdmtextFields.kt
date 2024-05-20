@@ -39,7 +39,7 @@ account = textFields(R.string.Account_text,passwordTextField = false, modifier =
 @SuppressLint("ComposableNaming")
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun UdmtextFields(stringResource: Int,
+fun UdmtextFields(stringResource: Int=0,
                   extraMsg:String="",
                   keyboardType: KeyboardType= KeyboardType.Ascii,//設定鍵盤格式
                   imeAction: ImeAction= ImeAction.Done,//設定動作按鈕
@@ -59,7 +59,9 @@ fun UdmtextFields(stringResource: Int,
                 value = input, //顯示文字
                 onValueChange = { input = it },// 監聽
                 label = {
-                    Text(text = stringResource(id=stringResource)+extraMsg)
+                    if(stringResource!=0){
+                        Text(text = stringResource(id=stringResource)+extraMsg)
+                    }
                 },
                 keyboardActions = KeyboardActions(onDone = {
                     keyboardController?.hide()

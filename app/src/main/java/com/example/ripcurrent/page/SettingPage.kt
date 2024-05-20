@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
@@ -24,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -31,7 +33,13 @@ import androidx.navigation.NavHostController
 import com.example.ripcurrent.R
 import com.example.ripcurrent.Screens
 import com.example.ripcurrent.tool.BackHandlerPress
+import com.example.ripcurrent.tool.UdmtextFields
+import com.example.ripcurrent.tool.http.Retrofit
 import com.example.ripcurrent.tool.readDataClass
+import com.example.ripcurrent.tool.saveDataClass
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -66,10 +74,23 @@ fun SettingPage(modifier: Modifier, navController: NavHostController) {
                 Text(text = stringResource(R.string.user) +"：")
                 if(member.MemberGmail==""){
                     Text(text = stringResource(R.string.not_logged_in), color = Color.Blue, textDecoration = TextDecoration.Underline,modifier = Modifier.clickable { navController.navigate(Screens.SignInPage.name) })
-                }else if(member.MemberName==""){
-                    Text(text = stringResource(R.string.click_to_give_name), color = Color.Gray, textDecoration = TextDecoration.Underline,modifier = Modifier.clickable { navController.navigate(Screens.SignInPage.name) })
-                }else{
-                    Text(text = member.MemberName)
+                }else if(member.MemberName==""&&!changeNameisClicked){
+                    Text(text = stringResource(R.string.click_to_give_name), color = Color.Gray, textDecoration = TextDecoration.Underline,modifier = Modifier.clickable { changeNameisClicked=true })
+                }else if(changeNameisClicked){
+                    member.MemberName= UdmtextFields( keyboardType = KeyboardType.Text, modifier = Modifier.padding(end = 10.dp).height(60.dp)){ name->
+                        member.MemberName=name
+                        CoroutineScope(Dispatchers.Main).launch {
+                            Retrofit.apiService.updateMember(member)
+                            saveDataClass(context,"Member",member)
+                            changeNameisClicked=false
+                        }
+                    }
+                    BackHandlerPress( ){
+                        Log.i("9453","返回")
+                        navController.navigate(Screens.SettingPage.name)
+                    }
+                } else{
+                    Text(text = member.MemberName,modifier = Modifier.clickable { changeNameisClicked=true})
                 }
             }
 
