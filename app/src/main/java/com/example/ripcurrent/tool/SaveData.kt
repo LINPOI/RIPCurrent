@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
+import com.example.ripcurrent.tool.Data.Member
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -15,7 +16,7 @@ fun saveDataClass(context: Context, key: String, data: Any) {//Member(key)
     val gson = Gson()
     val jsonString = gson.toJson(data)
     when(data){
-       // is Member -> editor.putString(key, jsonString)
+       is Member -> editor.putString(key, jsonString)
         is Int -> editor.putInt(key,data)
         is Boolean -> editor.putBoolean(key, data)
         is String -> editor.putString(key, data)
@@ -44,18 +45,18 @@ fun saveDataClass(context: Context, key: String, data: Any) {//Member(key)
 }
 
 
-//fun readDataClass(context: Context, key: String): Member? {
-//    val sharedPreferences: SharedPreferences = context.getSharedPreferences("myPreferences", Context.MODE_PRIVATE)
-//    val jsonString = sharedPreferences.getString(key, null)
-//
-//    if (jsonString != null) {
-//        val gson = Gson()
-//        val type = object : TypeToken<Member>() {}.type
-//        return gson.fromJson(jsonString, type)
-//    }
-//
-//    return null
-//}
+fun readDataClass(context: Context, key: String): Member {
+    val sharedPreferences: SharedPreferences = context.getSharedPreferences("myPreferences", Context.MODE_PRIVATE)
+    val jsonString = sharedPreferences.getString(key, null)
+
+    if (jsonString != null) {
+        val gson = Gson()
+        val type = object : TypeToken<Member>() {}.type
+        return gson.fromJson(jsonString, type)
+    }
+
+    return Member()
+}
 // read data class
 @SuppressLint("SuspiciousIndentation")
 fun <T : Any>readDataClass(context: Context, key: String, defaultValue: T): T {

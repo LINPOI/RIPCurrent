@@ -14,11 +14,18 @@
     <string name="rip_currents_will_only_carry_people_away_from_the_coast_but_will_not_sweep_them_to_the_bottom_of_the_sea_if_you_take_enough_breath_the_human_body_will_float_and_you_can_save_yourself_by_doing_a_basic_jellyfish_float_don_t_swim_directly_to_shore_and_don_t_fight_the_current">Rip currents will only carry people away from the coast, but will not sweep them to the bottom of the sea. If you take enough breath, the human body will float, and you can save yourself by doing a basic jellyfish float. Don\'t swim directly to shore and don\'t fight the current.</string>
     <string name="self_rescue_method_take_it_to_the_open_sea_with_the_current_and_then_swim_back_to_the_shore_with_the_current">Self-rescue method: Take it to the open sea with the current, and then swim back to the shore with the current.</string>
     <string name="open_photo_album">Open photo album</string>
-    <string name="account">Account</string>
+    <string name="gmail">gmail</string>
     <string name="password">Password</string>
-    <string name="account_number_must_be_at_least_6_characters">Account number must be at least 6 characters</string>
+    <string name="gmail_number_must_be_at_least_6_characters">gmail number must be at least 6 characters</string>
     <string name="password_must_be_at_least_6_characters">Password must be at least 6 characters</string>
     <string name="password_cannot_be_empty">Password cannot be empty</string>
-    <string name="account_cannot_be_empty">Account cannot be empty</string>
-    <string name="account_or_password_is_incorrect">Account or password is incorrect</string>
+    <string name="gmail_cannot_be_empty">gmail cannot be empty</string>
+    <string name="gmail_or_password_is_incorrect">gmail or password is incorrect</string>
+    <string name="user">User</string>
+    <string name="not_logged_in">Not logged in</string>
+    <string name="click_to_give_name">click to give name</string>
+    <string name="wrong_password">wrong password</string>
+    <string name="click_ok_to_register">click OK to register</string>
+    <string name="ok">ok</string>
+    <string name="cancel">cancel</string>
 </resources>

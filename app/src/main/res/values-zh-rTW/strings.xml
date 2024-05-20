@@ -14,11 +14,18 @@
     <string name="rip_currents_will_only_carry_people_away_from_the_coast_but_will_not_sweep_them_to_the_bottom_of_the_sea_if_you_take_enough_breath_the_human_body_will_float_and_you_can_save_yourself_by_doing_a_basic_jellyfish_float_don_t_swim_directly_to_shore_and_don_t_fight_the_current">離岸流只會把人帶離海岸，不會把人捲到海底。吸足氣，人體就會漂浮了，基本的水母飄便能自救。不要直接往岸上游，不要對抗海流。</string>
     <string name="self_rescue_method_take_it_to_the_open_sea_with_the_current_and_then_swim_back_to_the_shore_with_the_current">自救方式：隨海流帶到外海之後，再順海流游回岸上。</string>
     <string name="open_photo_album">打開相冊</string>
-    <string name="account">帳號</string>
+    <string name="gmail">gmail</string>
     <string name="password">密碼</string>
-    <string name="account_number_must_be_at_least_6_characters">帳號至少6位元</string>
+    <string name="gmail_number_must_be_at_least_6_characters">gmail至少6位元</string>
     <string name="password_must_be_at_least_6_characters">密碼至少6位元</string>
     <string name="password_cannot_be_empty">密碼不可為空</string>
-    <string name="account_cannot_be_empty">帳號不可為空</string>
-    <string name="account_or_password_is_incorrect">帳號或密碼不正確</string>
+    <string name="gmail_cannot_be_empty">gmail不可為空</string>
+    <string name="gmail_or_password_is_incorrect">gmail或密碼不正確</string>
+    <string name="user">使用者</string>
+    <string name="not_logged_in">登入</string>
+    <string name="click_to_give_name">點擊以取名</string>
+    <string name="wrong_password">錯誤的密碼</string>
+    <string name="click_ok_to_register">按確定已註冊</string>
+    <string name="ok">確定</string>
+    <string name="cancel">取消</string>
 </resources>

@@ -16,8 +16,8 @@ import com.example.ripcurrent.page.CameraPage
 import com.example.ripcurrent.page.EditPhotoPage
 import com.example.ripcurrent.page.IntroductionToRipCurrentsPage
 import com.example.ripcurrent.page.MainPage
-import com.example.ripcurrent.page.OpenPage
 import com.example.ripcurrent.page.SettingPage
+import com.example.ripcurrent.page.SignInPage
 
 @Composable
 fun AppNavigator(
@@ -29,7 +29,7 @@ fun AppNavigator(
     val backStackEntry by navController.currentBackStackEntryAsState() //導航堆疊入口
     // 初始畫面位置
     val currentScreen = Screens.valueOf(
-        backStackEntry?.destination?.route ?: Screens.OpenPage.name//當前路徑，route回傳名稱
+        backStackEntry?.destination?.route ?: Screens.MainPage.name//當前路徑，route回傳名稱
 
     )
 
@@ -43,8 +43,8 @@ fun AppNavigator(
                 .fillMaxSize()
         ) {
             //切換至MainPage
-            composable(Screens.OpenPage.name) {
-                OpenPage(modifier, navController)
+            composable(Screens.SignInPage.name) {
+                SignInPage(modifier, navController)
             }
             composable(Screens.MainPage.name) {
                 MainPage(modifier, navController)

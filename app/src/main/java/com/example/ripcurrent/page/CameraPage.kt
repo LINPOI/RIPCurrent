@@ -21,7 +21,7 @@ fun CameraPage(modifier: Modifier, navController: NavHostController) {
     }
     BackHandlerPress( ){
         Log.i("9453","返回")
-        navController.navigate(Screens.OpenPage.name)
+        navController.navigate(Screens.MainPage.name)
     }
 }
 

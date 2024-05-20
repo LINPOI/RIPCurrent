@@ -75,7 +75,7 @@ fun MainPage(modifier: Modifier = Modifier, navController: NavHostController) {
                 OutlinedButton(modifier= Modifier
                     .size(width = 230.dp, height = 30.dp)
                     .background(MaterialTheme.colorScheme.background),
-                    onClick = { navController.navigate(Screens.OpenPage.name) }) {
+                    onClick = { navController.navigate(Screens.MainPage.name) }) {
 
                 }
                 UdmImage(imageResource = R.drawable.setting) {

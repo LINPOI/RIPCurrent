@@ -13,12 +13,12 @@ import androidx.core.content.ContextCompat
 import com.example.ripcurrent.ui.theme.RipcurrentTheme
 
 enum class Screens {
-    OpenPage,
+    SignInPage ,
     MainPage,
     CameraPage,
     SettingPage,
     IntroductionToRipCurrentsPage,
-    EditPhotoPage
+    EditPhotoPage;
 }
 
 class MainActivity : ComponentActivity() {
