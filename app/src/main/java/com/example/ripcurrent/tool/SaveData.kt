@@ -3,10 +3,14 @@ package com.example.ripcurrent.tool
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.util.Base64
 import android.util.Log
 import com.example.ripcurrent.tool.Data.Member
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import java.io.ByteArrayOutputStream
 
 /* save data class*/
 fun saveDataClass(context: Context, key: String, data: Any) {//Member(key)
@@ -38,24 +42,38 @@ fun saveDataClass(context: Context, key: String, data: Any) {//Member(key)
                 Log.i("0123", "Unsupported data type in the list")
             }
         }
+        is Bitmap -> {
+            val outputStream = ByteArrayOutputStream()
+            data.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+            val byteArray = outputStream.toByteArray()
+            val encodedString = Base64.encodeToString(byteArray, Base64.DEFAULT)
+            editor.putString(key, encodedString)
+        }
         else -> Log.i("0123", "Unsupported data type")
+
     }
 
     editor.apply()
 }
 
 
-fun readDataClass(context: Context, key: String): Member {
+inline fun <reified T> readDataClass(context: Context, key: String): T? {
     val sharedPreferences: SharedPreferences = context.getSharedPreferences("myPreferences", Context.MODE_PRIVATE)
     val jsonString = sharedPreferences.getString(key, null)
 
-    if (jsonString != null) {
+    return if (jsonString != null) {
         val gson = Gson()
-        val type = object : TypeToken<Member>() {}.type
-        return gson.fromJson(jsonString, type)
+        val type = object : TypeToken<T>() {}.type
+        gson.fromJson(jsonString, type)
+    } else {
+        null
     }
-
-    return Member()
+}
+fun readDataClass_Bitmap(context: Context, key: String): Bitmap? {
+    val sharedPreferences: SharedPreferences = context.getSharedPreferences("myPreferences", Context.MODE_PRIVATE)
+    val encodedString = sharedPreferences.getString(key, null) ?: return null
+    val byteArray = Base64.decode(encodedString, Base64.DEFAULT)
+    return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
 }
 // read data class
 @SuppressLint("SuspiciousIndentation")

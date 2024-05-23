@@ -41,6 +41,7 @@ account = textFields(R.string.Account_text,passwordTextField = false, modifier =
 @Composable
 fun UdmtextFields(stringResource: Int=0,
                   extraMsg:String="",
+                  showContent:String="",
                   keyboardType: KeyboardType= KeyboardType.Ascii,//設定鍵盤格式
                   imeAction: ImeAction= ImeAction.Done,//設定動作按鈕
                   passwordTextField:Boolean=false,
@@ -49,7 +50,7 @@ fun UdmtextFields(stringResource: Int=0,
                   setDone:(String)->Unit={},   //設定按下結束時行為
                ):String{
     var input by remember {
-        mutableStateOf("")
+        mutableStateOf(showContent)
     }// 宣告一個文本變數，使用 Compose 的狀態管理功能*
     val keyboardController=LocalSoftwareKeyboardController.current
     when(selectFieldsStyle){

@@ -15,7 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForward
-import androidx.compose.material.icons.filled.Send
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -37,10 +37,13 @@ import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
 import androidx.navigation.NavHostController
 import com.example.ripcurrent.MainActivity
+import com.example.ripcurrent.R
 import com.example.ripcurrent.Screens
+import com.example.ripcurrent.tool.Data.Member
 import com.example.ripcurrent.tool.HandleBackPress
 import com.example.ripcurrent.tool.readDataClass
-import com.example.ripcurrent.tool.SaveBitmapAsPNG
+import com.example.ripcurrent.tool.saveDataClass
+import com.example.ripcurrent.tool.showToast
 import io.getstream.sketchbook.Sketchbook
 import io.getstream.sketchbook.rememberSketchbookController
 
@@ -123,16 +126,26 @@ fun EditPhotoPage(modifier: Modifier, navController: NavHostController) {
                 }
                 //傳送
                 Icon(
-                    Icons.Filled.Send,
+                    Icons.Filled.PlayArrow,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.onPrimary,
                     modifier = Modifier
                         .size(30.dp)
 
                         .clickable {
-                            val bitmap = sketchbookController.getSketchbookBitmap().asAndroidBitmap()
-                            SaveBitmapAsPNG(bitmap, activity)
-
+                            var member =  readDataClass(context, "Member")?: Member()
+                            saveDataClass(context, "sSourceNav", Screens.EditPhotoPage.name)
+                            if (member.MemberGmail == "") {
+                                showToast(context, R.string.please_log_in_first)
+                                navController.navigate(Screens.LoginPage.name)
+                            } else {
+                                val bitmap = sketchbookController
+                                    .getSketchbookBitmap()
+                                    .asAndroidBitmap()
+                                //SaveBitmapAsPNG(bitmap, activity, member)
+                                saveDataClass(context, "bitmap", bitmap)
+                                navController.navigate(Screens.EditPhotoInformationPage.name)
+                            }
                         })
             }
             // 根據狀態變化執行相應的操作

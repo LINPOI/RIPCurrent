@@ -33,6 +33,7 @@ import androidx.navigation.NavHostController
 import com.example.ripcurrent.R
 import com.example.ripcurrent.Screens
 import com.example.ripcurrent.tool.BackHandlerPress
+import com.example.ripcurrent.tool.Data.Member
 import com.example.ripcurrent.tool.UdmtextFields
 import com.example.ripcurrent.tool.http.Retrofit
 import com.example.ripcurrent.tool.readDataClass
@@ -45,7 +46,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun SettingPage(modifier: Modifier, navController: NavHostController) {
     val context = LocalContext.current
-    val member= readDataClass(context,"Member")
+    val member= readDataClass(context,"Member")?: Member()
     var changeNameisClicked by remember {
         mutableStateOf(false)
     }
@@ -70,13 +71,18 @@ fun SettingPage(modifier: Modifier, navController: NavHostController) {
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            //使用者顯示設定
             Row {
                 Text(text = stringResource(R.string.user) +"：")
                 if(member.MemberGmail==""){
-                    Text(text = stringResource(R.string.not_logged_in), color = Color.Blue, textDecoration = TextDecoration.Underline,modifier = Modifier.clickable { navController.navigate(Screens.SignInPage.name) })
+                    //如果沒註冊，則註冊
+                    saveDataClass(context, "SourceNav", Screens.SettingPage.name)
+                    Text(text = stringResource(R.string.not_logged_in), color = Color.Blue, textDecoration = TextDecoration.Underline,modifier = Modifier.clickable { navController.navigate(Screens.LoginPage.name) })
                 }else if(member.MemberName==""&&!changeNameisClicked){
+                    //如果尚未命名
                     Text(text = stringResource(R.string.click_to_give_name), color = Color.Gray, textDecoration = TextDecoration.Underline,modifier = Modifier.clickable { changeNameisClicked=true })
                 }else if(changeNameisClicked){
+                    //如果已命名
                     member.MemberName= UdmtextFields( keyboardType = KeyboardType.Text, modifier = Modifier.padding(end = 10.dp).height(60.dp)){ name->
                         member.MemberName=name
                         CoroutineScope(Dispatchers.Main).launch {
@@ -85,6 +91,7 @@ fun SettingPage(modifier: Modifier, navController: NavHostController) {
                             changeNameisClicked=false
                         }
                     }
+                    //返回設定
                     BackHandlerPress( ){
                         Log.i("9453","返回")
                         navController.navigate(Screens.SettingPage.name)

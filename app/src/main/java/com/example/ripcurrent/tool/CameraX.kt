@@ -1,10 +1,12 @@
 package com.example.ripcurrent.tool
 //來源 https://github.com/DeepuGeorgeJacob/CmrXTutorial/tree/main
+import android.Manifest
 import android.content.ContentValues
 import android.content.Context
 import android.os.Build
 import android.provider.MediaStore
 import android.util.Log
+import androidx.activity.ComponentActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
@@ -13,9 +15,14 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -24,35 +31,65 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavHostController
 import com.example.ripcurrent.Screens
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun CameraPreviewScreen(navController: NavHostController) {
     val lensFacing = CameraSelector.LENS_FACING_BACK
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
-    val preview = Preview.Builder().build()
-    val previewView = remember {
-        PreviewView(context)
-    }
-    val cameraxSelector = CameraSelector.Builder().requireLensFacing(lensFacing).build()
-    val imageCapture = remember {
-        ImageCapture.Builder().build()
+    val activity = LocalContext.current as? ComponentActivity
+    var hasCameraPermission by remember { mutableStateOf(false) }
+
+    // Use Accompanist Permission API to handle permission requests
+    val cameraPermissionState = rememberPermissionState(permission = Manifest.permission.CAMERA)
+
+    LaunchedEffect(cameraPermissionState.status.isGranted) {
+        hasCameraPermission = cameraPermissionState.status.isGranted
     }
 
-    LaunchedEffect(lensFacing) {
-        val cameraProvider = context.getCameraProvider()
-        cameraProvider.unbindAll()
-        cameraProvider.bindToLifecycle(lifecycleOwner, cameraxSelector, preview, imageCapture)
-        preview.setSurfaceProvider(previewView.surfaceProvider)
-    }
-    Box(contentAlignment = Alignment.BottomCenter, modifier = Modifier.fillMaxSize()) {
-        AndroidView({ previewView }, modifier = Modifier.fillMaxSize())
-        OpenAlbumScreen(imageCapture,context, Modifier ,navController)
-
+    LaunchedEffect(Unit) {
+        if (!hasCameraPermission) {
+            cameraPermissionState.launchPermissionRequest()
+        }
     }
 
+    if (hasCameraPermission) {
+        val preview = Preview.Builder().build()
+        val previewView = remember { PreviewView(context) }
+        val cameraxSelector = CameraSelector.Builder().requireLensFacing(lensFacing).build()
+        val imageCapture = remember { ImageCapture.Builder().build() }
+
+        LaunchedEffect(lensFacing) {
+            val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
+            cameraProviderFuture.addListener({
+                try {
+                    val cameraProvider = cameraProviderFuture.get()
+                    cameraProvider.unbindAll()
+                    cameraProvider.bindToLifecycle(lifecycleOwner, cameraxSelector, preview, imageCapture)
+                    preview.setSurfaceProvider(previewView.surfaceProvider)
+                } catch (e: Exception) {
+                    Log.e("CameraPreviewScreen", "Camera initialization failed", e)
+                }
+            }, ContextCompat.getMainExecutor(context))
+        }
+
+        Box(contentAlignment = Alignment.BottomCenter, modifier = Modifier.fillMaxSize()) {
+            AndroidView({ previewView }, modifier = Modifier.fillMaxSize())
+            OpenAlbumScreen(imageCapture, context, Modifier, navController)
+        }
+    } else {
+        // Permission denied or not yet granted
+        Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
+            // Show a message or UI indicating that camera permission is required
+            Text(text = "Camera permission is required", style = MaterialTheme.typography.titleSmall)
+        }
+    }
 }
 
 fun captureImage(imageCapture: ImageCapture, context: Context,navController: NavHostController) {
@@ -80,6 +117,7 @@ fun captureImage(imageCapture: ImageCapture, context: Context,navController: Nav
                 Log.i("linpoi","Successes")
                 outputFileResults.savedUri?.let {
                     saveDataClass(context,"ImageUrl", it.toString())
+                    saveDataClass(context,"currentTime", GetCurrentTime())
                     Log.i("linpoi","CameraX,$it")
                     navController.navigate(Screens.EditPhotoPage.name)
                 }

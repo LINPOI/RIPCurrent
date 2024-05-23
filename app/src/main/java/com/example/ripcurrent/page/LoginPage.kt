@@ -32,14 +32,16 @@ import com.example.ripcurrent.tool.Check.NullData
 import com.example.ripcurrent.tool.Data.Member
 import com.example.ripcurrent.tool.UdmtextFields
 import com.example.ripcurrent.tool.http.Retrofit
+import com.example.ripcurrent.tool.readDataClass
 import com.example.ripcurrent.tool.saveDataClass
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @Composable
-fun SignInPage(modifier: Modifier, navController: NavHostController) {
+fun LoginPage(modifier: Modifier, navController: NavHostController) {
     val context = LocalContext.current
+    val sourceNav = readDataClass(context, "SourceNav",Screens.SettingPage.name)
     var member by remember { mutableStateOf(Member()) }
     var wrong by remember { mutableIntStateOf(R.string.nul) }
     var alert by remember { mutableStateOf(false) }
@@ -69,7 +71,7 @@ fun SignInPage(modifier: Modifier, navController: NavHostController) {
                         try {
                             if(Retrofit.apiService.loginMember(member).isSuccessful){
                                 //登入成功
-                                navController.navigate(Screens.MainPage.name)
+                                navController.navigate(sourceNav)
                                 saveDataClass(context,"Member",member)
                             }else if (Retrofit.apiService.loginMember(member).code()==401){
                                 wrong =R.string.wrong_password
@@ -89,14 +91,14 @@ fun SignInPage(modifier: Modifier, navController: NavHostController) {
             }
             Text(text = stringResource(id = wrong), color = Color.Red)
             if(alert){
-                alert=alert(member,navController)
+                alert=alert(member,navController,sourceNav)
             }
         }
 
     }
     BackHandlerPress( ){
         Log.i("9453","返回")
-        navController.navigate(Screens.SettingPage.name)
+        navController.navigate(sourceNav)
     }
 }
 fun Wrong(s1:String,s2:String):Int{
@@ -113,7 +115,7 @@ fun Wrong(s1:String,s2:String):Int{
     }
 }
 @Composable
-fun alert(member:Member=Member(),navController: NavHostController):Boolean{
+fun alert(member:Member=Member(),navController: NavHostController,ReSourseNav:String):Boolean{
     val context = LocalContext.current
     var save by remember { mutableStateOf(-1) }
     AlertDialog(
@@ -136,7 +138,7 @@ fun alert(member:Member=Member(),navController: NavHostController):Boolean{
             member.MemberGmail= changeGmailAddress(member.MemberGmail).toString()
             Retrofit.apiService.insertMember(member)
             saveDataClass(context,"Member",member)
-            navController.navigate(Screens.SettingPage.name)
+            navController.navigate(ReSourseNav)
         }
     }
     return save != 0

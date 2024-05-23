@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
+import com.example.ripcurrent.tool.Data.Member
 import com.example.ripcurrent.tool.http.Retrofit
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -19,7 +20,7 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 
 // 將 Bitmap 保存為 PNG 檔案
-fun SaveBitmapAsPNG(bitmap: Bitmap, context: Context) {
+fun SaveBitmapAsPNG(bitmap: Bitmap, context: Context, member: Member) {
     // 定義要保存的圖片的相關信息
     val mimeType = "image/jpeg"
     val relativeLocation = Environment.DIRECTORY_PICTURES + File.separator + "ripcurrentX-Image"
@@ -61,7 +62,7 @@ fun SaveBitmapAsPNG(bitmap: Bitmap, context: Context) {
         // 將臨時文件轉換為請求體的一部分
         val filePart = MultipartBody.Part.createFormData(
             name = "image", // 檔案欄位名稱，與伺服器端匹配
-            filename = "image.jpg", // 檔案名稱，可以自定義
+            filename = "${member.MemberGmail}.jpg", // 檔案名稱，可以自定義 需地點使用者日期
             body = tempFile.asRequestBody("image/jpeg".toMediaTypeOrNull()) // 檔案內容類型
         )
 

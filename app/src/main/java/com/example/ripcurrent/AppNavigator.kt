@@ -13,11 +13,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.ripcurrent.page.CameraPage
+import com.example.ripcurrent.page.EditPhotoInformationPage
 import com.example.ripcurrent.page.EditPhotoPage
 import com.example.ripcurrent.page.IntroductionToRipCurrentsPage
+import com.example.ripcurrent.page.LoginPage
 import com.example.ripcurrent.page.MainPage
 import com.example.ripcurrent.page.SettingPage
-import com.example.ripcurrent.page.SignInPage
 
 @Composable
 fun AppNavigator(
@@ -43,8 +44,11 @@ fun AppNavigator(
                 .fillMaxSize()
         ) {
             //切換至MainPage
-            composable(Screens.SignInPage.name) {
-                SignInPage(modifier, navController)
+            composable(Screens.EditPhotoInformationPage.name) {
+                EditPhotoInformationPage(modifier, navController)
+            }
+            composable(Screens.LoginPage.name) {
+                LoginPage(modifier, navController)
             }
             composable(Screens.MainPage.name) {
                 MainPage(modifier, navController)
