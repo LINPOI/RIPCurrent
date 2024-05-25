@@ -42,12 +42,16 @@ import com.example.ripcurrent.R
 import com.example.ripcurrent.Screens
 import com.example.ripcurrent.tool.BackHandlerPress
 import com.example.ripcurrent.tool.Data.Member
+import com.example.ripcurrent.tool.Data.PhotoInfo
 import com.example.ripcurrent.tool.GetCurrentTime
-import com.example.ripcurrent.tool.SaveBitmapAsPNG
 import com.example.ripcurrent.tool.UdmtextFields
+import com.example.ripcurrent.tool.http.UploadImageAndJson
 import com.example.ripcurrent.tool.readDataClass
 import com.example.ripcurrent.tool.readDataClass_Bitmap
 import getCoordinate
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -112,7 +116,14 @@ fun EditPhotoInformationPage(modifier: Modifier, navController: NavHostControlle
                                 .size(40.dp)
                                 .clickable {
                                     if (bitmap != null) {
-                                        SaveBitmapAsPNG(bitmap, context, member)
+
+                                        //SaveBitmapAsPNG(bitmap, context)  //儲存於本機
+                                        val filename=coordinte.address+member.MemberName+currentTime.timeFormatter2
+                                        val info=PhotoInfo(PhotoLocation = coordinte.address, PhotoCoordinate_lat = coordinte.lat.toString(), PhotoCoordinate_lng = coordinte.lng.toString(), PhotoFilming_time = currentTime.timeFormatter2)
+                                        //Log.i("MyLog","$info")
+                                        CoroutineScope(Dispatchers.Main).launch {
+                                            UploadImageAndJson(filename,bitmap,info)
+                                        }
                                     } else {
                                         Log.i("MyLog", "沒有圖片")
                                     }

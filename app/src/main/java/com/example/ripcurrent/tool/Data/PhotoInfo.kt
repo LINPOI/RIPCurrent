@@ -1,6 +1,6 @@
 package com.example.ripcurrent.tool.Data
 
-data class information(
+data class PhotoInfo(
     var PhotoLocation: String = "",
     var PhotoCoordinate_lng: String = "",
     var PhotoCoordinate_lat: String = "",

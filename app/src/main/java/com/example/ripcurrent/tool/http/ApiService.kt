@@ -3,6 +3,8 @@ package com.example.ripcurrent.tool.http
 import com.example.ripcurrent.tool.Data.Member
 import com.example.ripcurrent.tool.Data.MemberResponse
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.Multipart
@@ -12,7 +14,9 @@ import retrofit2.http.Part
 interface ApiService {
     @Multipart
     @POST("photo/post")
-    suspend fun uploadImage(@Part filePart: MultipartBody.Part): Response<ByteArray>
+    suspend fun uploadImage(@Part filePart: MultipartBody.Part,
+                            @Part("information") jsonPart: RequestBody
+    ): Response<ResponseBody>
     @POST("member/insert")
     suspend fun insertMember(@Body member: Member): Response<MemberResponse>
     @POST("member/query/login")
@@ -33,3 +37,4 @@ interface ApiService {
 }
 //LaunchedEffect(Unit) {}
 // CoroutineScope(Dispatchers.Main).launch {}
+// runBlocking {}
