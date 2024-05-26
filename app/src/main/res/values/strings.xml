@@ -37,4 +37,5 @@
     <string name="request_location_permission">Request location permission</string>
     <string name="this_app_requires_location_permission_to_obtain_your_current_location">This app requires location permission to obtain your current location</string>
     <string name="location_permission_required">Location permission required</string>
+    <string name="reset">reset</string>
 </resources>

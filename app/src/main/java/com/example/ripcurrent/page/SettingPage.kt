@@ -3,6 +3,7 @@ package com.example.ripcurrent.page
 import android.util.Log
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,7 +24,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextDecoration
@@ -46,6 +49,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun SettingPage(modifier: Modifier, navController: NavHostController) {
     val context = LocalContext.current
+    val focusManager = LocalFocusManager.current
     val member= readDataClass(context,"Member")?: Member()
     var changeNameisClicked by remember {
         mutableStateOf(false)
@@ -67,7 +71,13 @@ fun SettingPage(modifier: Modifier, navController: NavHostController) {
         Column(
             modifier= Modifier
                 .fillMaxSize()
-                .padding(it),
+                .padding(it)
+                .pointerInput(Unit) {
+                    // 設置點擊監聽器，清除焦點
+                    detectTapGestures(onTap = {
+                        focusManager.clearFocus()
+                    })
+                },
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {

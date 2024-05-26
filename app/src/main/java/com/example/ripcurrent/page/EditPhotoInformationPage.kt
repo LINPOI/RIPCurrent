@@ -124,6 +124,7 @@ fun EditPhotoInformationPage(modifier: Modifier, navController: NavHostControlle
                                         CoroutineScope(Dispatchers.Main).launch {
                                             UploadImageAndJson(filename,bitmap,info)
                                         }
+                                        navController.navigate(Screens.MainPage.name)
                                     } else {
                                         Log.i("MyLog", "沒有圖片")
                                     }

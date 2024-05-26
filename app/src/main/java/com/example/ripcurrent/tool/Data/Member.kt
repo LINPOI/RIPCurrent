@@ -7,6 +7,3 @@ data class Member (
     var MemberPhone: String="",
 )
 
-data class MemberResponse (
-    var Response: String="",
-)

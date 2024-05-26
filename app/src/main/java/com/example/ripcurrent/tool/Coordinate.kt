@@ -33,6 +33,12 @@ fun getCoordinate(): Coordinate {
     val context = LocalContext.current
     val locationService = remember { LocationService(context) }
     val locationPermissionState = rememberPermissionState(permission = Manifest.permission.ACCESS_FINE_LOCATION)
+//    val locationPermissionState = rememberMultiplePermissionsState(
+//        permissions = listOf(
+//            Manifest.permission.ACCESS_FINE_LOCATION,
+//            Manifest.permission.ACCESS_COARSE_LOCATION
+//        )
+//    )
     val coordinate = remember { mutableStateOf(Coordinate()) }
 
     // 使用 LaunchedEffect 來處理位置數據

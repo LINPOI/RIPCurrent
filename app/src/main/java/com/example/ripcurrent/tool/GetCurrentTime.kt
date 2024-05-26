@@ -18,3 +18,17 @@ fun CurrentTime2(): String {
     val formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss")
     return current.format(formatter)
 }
+fun formatDateTime(input: String): String {
+    // Define the input and output formats
+    if(input.length<14){
+        return input
+    }
+    val inputFormatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss")
+    val outputFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")
+
+    // Parse the input string to LocalDateTime
+    val dateTime = LocalDateTime.parse(input, inputFormatter)
+
+    // Format the LocalDateTime to the desired output format
+    return dateTime.format(outputFormatter)
+}
