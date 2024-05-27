@@ -19,6 +19,7 @@ import com.example.ripcurrent.page.IntroductionToRipCurrentsPage
 import com.example.ripcurrent.page.LoginPage
 import com.example.ripcurrent.page.MainPage
 import com.example.ripcurrent.page.SettingPage
+import com.example.ripcurrent.page.ShowImagePage
 
 @Composable
 fun AppNavigator(
@@ -67,6 +68,9 @@ fun AppNavigator(
             composable(Screens.EditPhotoPage.name) {
                 EditPhotoPage(modifier, navController)
                 //CoilImage()
+            }
+            composable(Screens.ShowImagePage.name) {
+                ShowImagePage(modifier, navController)
             }
         }
     }

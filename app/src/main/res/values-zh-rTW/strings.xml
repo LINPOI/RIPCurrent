@@ -38,4 +38,5 @@
     <string name="this_app_requires_location_permission_to_obtain_your_current_location">此應用需要位置權限來取得您的當前位置</string>
     <string name="location_permission_required">需要位置許可</string>
     <string name="reset">重置</string>
+    <string name="near_to_far">近→遠</string>
 </resources>

@@ -8,4 +8,5 @@ enum class Screens {
     IntroductionToRipCurrentsPage,
     EditPhotoPage,
     EditPhotoInformationPage,
+    ShowImagePage,
 }

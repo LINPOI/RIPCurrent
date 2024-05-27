@@ -1,5 +1,6 @@
 package com.example.ripcurrent.page
 
+import Coordinate
 import android.content.Context
 import android.location.Location
 import android.util.Log
@@ -21,13 +22,13 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.twotone.Search
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -53,6 +54,7 @@ import com.example.ripcurrent.tool.UdmImage
 import com.example.ripcurrent.tool.UdmtextFields
 import com.example.ripcurrent.tool.formatDateTime
 import com.example.ripcurrent.tool.listFilesInDirectory
+import com.example.ripcurrent.tool.saveDataClass
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import getCoordinate
 import kotlinx.coroutines.CoroutineScope
@@ -72,56 +74,43 @@ fun MainPage(modifier: Modifier = Modifier, navController: NavHostController) {
     val focusManager = LocalFocusManager.current
     //位置紀錄
     val coordinate = getCoordinate()
-    LaunchedEffect(Unit) {
-            try {
-                // 對 photoInfo 進行排序並更新列表
-                Log.i("linpoi", photoInfo.toString())
-                val sortedList = photoInfo.sortedBy { photo ->
-                    val lat = photo.PhotoCoordinate_lat.toDoubleOrNull()
-                    val lng = photo.PhotoCoordinate_lng.toDoubleOrNull()
-                    if (lat != null && lng != null) {
-                        Log.i("linpoi", "交換")
-                        getDistance(coordinate.lat, coordinate.lng, lat, lng)
-
-                    } else {
-                        Double.MAX_VALUE
-                    }
-
-                }
-                // 使用 mutableStateListOf 替換內容
-                photoInfo.clear()
-                photoInfo.addAll(sortedList)
-
-
-            } catch (e: Exception) {
-                Log.e("linpoi", e.message ?: "Unknown error")
-            }
-
+    var buttonBackColor by remember {
+        mutableStateOf(false)
     }
     Scaffold(
         topBar = {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .border(0.5.dp, MaterialTheme.colorScheme.onBackground)
-                    .padding(bottom = 10.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ) {
-                val location = UdmtextFields(
-                    stringResource = R.string.nul,
-                    modifier = Modifier,
-                    selectFieldsStyle = 1,
-                    keyboardType = KeyboardType.Text
+            Column (modifier.border(0.5.dp, MaterialTheme.colorScheme.onBackground)){
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 10.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
                 ) {
-                    //如同點選搜尋時執行指令
+                    val location = UdmtextFields(
+                        stringResource = R.string.nul,
+                        modifier = Modifier,
+                        selectFieldsStyle = 1,
+                        keyboardType = KeyboardType.Text
+                    ) {
+                        //1.如同點選搜尋時執行指令
+                        Search(it,photoInfo)
+                    }
+                    Icon(imageVector = Icons.TwoTone.Search, contentDescription = null,
+                        modifier
+                            .padding(start = 10.dp)
+                            .size(40.dp)
+                            .clickable {
+                                //與1.相同
+                                Search(location,photoInfo)
+                                focusManager.clearFocus()
+                            })
                 }
-                Icon(imageVector = Icons.TwoTone.Search, contentDescription = null,
-                    modifier
-                        .padding(start = 10.dp)
-                        .size(40.dp)
-                        .clickable { })
+                NearToFarButton(photoInfo, coordinate,buttonBackColor){
+                    buttonBackColor = true
+                }
             }
+
 
         },
         bottomBar = {
@@ -165,7 +154,7 @@ fun MainPage(modifier: Modifier = Modifier, navController: NavHostController) {
         ) {
 
             items(photoInfo) {
-                RipCurrentInfo(it)
+                RipCurrentInfo(it,navController)
             }
             item {
                 ReStartButton(context) {
@@ -192,7 +181,8 @@ fun getDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double 
 
 
 @Composable
-fun RipCurrentInfo(photoInfo: PhotoInfoResponse) {
+fun RipCurrentInfo(photoInfo: PhotoInfoResponse,navController: NavHostController ) {
+    val context = LocalContext.current
     val url = "http://192.168.50.160/rip_current/photo/get/one/"
     val title =
         if (photoInfo.PhotoLocation.length > 8) photoInfo.PhotoLocation.substring(8) else photoInfo.PhotoLocation
@@ -219,7 +209,10 @@ fun RipCurrentInfo(photoInfo: PhotoInfoResponse) {
                 }
                 ),
                 contentDescription = null,
-                modifier = Modifier.size(160.dp, 280.dp)
+                modifier = Modifier.size(160.dp, 280.dp).clickable {
+                    saveDataClass(context,"ShowImage",url + photoInfo.PhotoName)
+                    navController.navigate(Screens.ShowImagePage.name)
+                }
             )
             Column(
                 modifier = Modifier.padding(start = 8.dp),
@@ -263,5 +256,49 @@ fun Title(text: String, modifier: Modifier = Modifier) {
         horizontalArrangement = Arrangement.Center
     ) {
         Text(text = text, color = MaterialTheme.colorScheme.onPrimary, fontSize = 25.sp)
+    }
+}
+@Composable
+fun NearToFarButton(
+    photoInfo: MutableList<PhotoInfoResponse>,
+    coordinate: Coordinate,
+    buttonBackColor: Boolean,
+    TODO: () -> Unit = {}
+){
+    OutlinedButton(colors = ButtonDefaults.outlinedButtonColors(containerColor = if (buttonBackColor) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.background), onClick = {
+        CoroutineScope(Dispatchers.Main).launch  {
+            try {
+                // 對 photoInfo 進行排序並更新列表
+                Log.i("linpoi", photoInfo.toString())
+                val sortedList = photoInfo.sortedBy { photo ->
+                    val lat = photo.PhotoCoordinate_lat.toDoubleOrNull()
+                    val lng = photo.PhotoCoordinate_lng.toDoubleOrNull()
+                    if (lat != null && lng != null) {
+                        Log.i("linpoi", "交換")
+                        getDistance(coordinate.lat, coordinate.lng, lat, lng)
+
+                    } else {
+                        Double.MAX_VALUE
+                    }
+
+                }
+                // 使用 mutableStateListOf 替換內容
+                photoInfo.clear()
+                photoInfo.addAll(sortedList)
+
+
+            } catch (e: Exception) {
+                Log.e("linpoi", e.message ?: "Unknown error")
+            }
+
+        }
+        TODO()
+    }) {
+        Text(text = stringResource(R.string.near_to_far),color = if (buttonBackColor) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.primary)
+    }
+}
+fun Search(string: String,list: List<PhotoInfoResponse>){
+    val filteredList = list.filter { item ->
+        item.PhotoName.contains(string)
     }
 }

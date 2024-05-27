@@ -1,6 +1,9 @@
 package com.example.ripcurrent.page
 
 import android.util.Log
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -9,6 +12,7 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -32,7 +36,10 @@ fun IntroductionToRipCurrentsPage(modifier: Modifier, navController: NavHostCont
     ) {
         LazyColumn {
             item {
-                UdmImage(imageResource = R.drawable.ripcurrent, width = 400.dp, height = 300.dp)
+                Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
+                    UdmImage(imageResource = R.drawable.ripcurrent_example, width = 400.dp, height = 300.dp)
+                }
+
                 Text(text = stringResource(R.string.rip_current), fontSize = 30.sp)
                 Text(
                     text = stringResource(R.string.it_is_a_kind_of_sea_current_that_carries_from_the_coast_to_the_sea_therefore_when_you_go_to_the_beach_to_play_in_the_water_you_should_first_observe_the_terrain_and_sea_surface_conditions_if_you_see_waves_on_both_sides_like_the_picture_above_but_a_relatively_calm_and_wave_free_area_in_the_middle_you_should_avoid_that_area_play_in_water_and_stay_away_as_much_as_possible),
