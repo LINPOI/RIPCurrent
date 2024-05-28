@@ -46,6 +46,7 @@ fun OpenAlbumScreen(
 
     //容納圖片的變數
     var selectedImage by remember { mutableStateOf<ImageBitmap?>(null) }
+    val position= GetPosition()
     val singleLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
         onResult = { uri: Uri? ->
@@ -106,7 +107,7 @@ fun OpenAlbumScreen(
                 .padding(50.dp)
                 .size(70.dp)
                 .clickable {
-                    captureImage(imageCapture, context,navController)
+                    captureImage(imageCapture, context, navController,position)
                     showToast(context, R.string.shooting_successful)
                 }
         )

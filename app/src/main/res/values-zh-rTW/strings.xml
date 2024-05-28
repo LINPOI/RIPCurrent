@@ -39,4 +39,6 @@
     <string name="location_permission_required">需要位置許可</string>
     <string name="reset">重置</string>
     <string name="near_to_far">近→遠</string>
+    <string name="position">位置</string>
+    <string name="direction">方向</string>
 </resources>

@@ -18,7 +18,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.twotone.Search
@@ -39,6 +39,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -53,7 +54,9 @@ import com.example.ripcurrent.tool.PhotoViewModel
 import com.example.ripcurrent.tool.UdmImage
 import com.example.ripcurrent.tool.UdmtextFields
 import com.example.ripcurrent.tool.formatDateTime
+import com.example.ripcurrent.tool.http.URL
 import com.example.ripcurrent.tool.listFilesInDirectory
+import com.example.ripcurrent.tool.readDataClass
 import com.example.ripcurrent.tool.saveDataClass
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import getCoordinate
@@ -70,6 +73,7 @@ fun MainPage(modifier: Modifier = Modifier, navController: NavHostController) {
     var photoInfo by remember { mutableStateOf(viewModel.photoInfo) }
     //紀錄滾動
     val listState = rememberLazyListState() // 紀錄 LazyColumn 的滾動狀態
+
     //聚焦
     val focusManager = LocalFocusManager.current
     //位置紀錄
@@ -152,15 +156,23 @@ fun MainPage(modifier: Modifier = Modifier, navController: NavHostController) {
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
-            items(photoInfo) {
-                RipCurrentInfo(it,navController)
+            CoroutineScope(Dispatchers.Main).launch {
+                listState.scrollToItem(readDataClass(context, "Item", 0))
+            }
+            itemsIndexed(photoInfo) {index,it->
+                RipCurrentInfo(it,navController){
+                    CoroutineScope(Dispatchers.Main).launch {
+                        navController.navigate(Screens.ShowImagePage.name)
+                        saveDataClass(context,"Item",index)
+                    }
+                }
             }
             item {
                 ReStartButton(context) {
                     photoInfo = viewModel.photoInfo
                     CoroutineScope(Dispatchers.Main).launch {
-                        listState.scrollToItem(index = 0)
+                        navController.navigate(Screens.MainPage.name)
+                        saveDataClass(context,"Item",0)
                     }
 
 
@@ -181,9 +193,9 @@ fun getDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double 
 
 
 @Composable
-fun RipCurrentInfo(photoInfo: PhotoInfoResponse,navController: NavHostController ) {
+fun RipCurrentInfo(photoInfo: PhotoInfoResponse,navController: NavHostController,imageClick: () -> Unit = {} ) {
     val context = LocalContext.current
-    val url = "http://192.168.50.160/rip_current/photo/get/one/"
+    val url = "${URL}photo/get/one/"
     val title =
         if (photoInfo.PhotoLocation.length > 8) photoInfo.PhotoLocation.substring(8) else photoInfo.PhotoLocation
     val time = formatDateTime(photoInfo.PhotoFilming_time)
@@ -210,8 +222,9 @@ fun RipCurrentInfo(photoInfo: PhotoInfoResponse,navController: NavHostController
                 ),
                 contentDescription = null,
                 modifier = Modifier.size(160.dp, 280.dp).clickable {
+                    imageClick()
                     saveDataClass(context,"ShowImage",url + photoInfo.PhotoName)
-                    navController.navigate(Screens.ShowImagePage.name)
+
                 }
             )
             Column(
@@ -226,7 +239,17 @@ fun RipCurrentInfo(photoInfo: PhotoInfoResponse,navController: NavHostController
                         shape = MaterialTheme.shapes.extraLarge
                     )
                 )
-                Text(text = time)
+                Text(text = time,Modifier.padding(top = 10.dp, bottom = 10.dp))
+
+                Title(
+                    text = stringResource(id = R.string.direction),
+                    Modifier.background(
+                        MaterialTheme.colorScheme.primary,
+                        shape = MaterialTheme.shapes.extraLarge
+                    )
+                )
+                Text(text = photoInfo.PhotoPosition,Modifier.padding(top = 10.dp, bottom = 10.dp), fontStyle = FontStyle.Italic, fontSize = 20.sp)
+
             }
         }
     }
@@ -243,6 +266,7 @@ fun ReStartButton(context: Context, doIn: () -> Unit) {
 
     }, modifier = Modifier.fillMaxWidth()) {
         Text(text = stringResource(R.string.reset))
+
     }
 }
 

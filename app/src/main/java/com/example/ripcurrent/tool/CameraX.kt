@@ -45,7 +45,6 @@ fun CameraPreviewScreen(navController: NavHostController) {
     val context = LocalContext.current
     val activity = LocalContext.current as? ComponentActivity
     var hasCameraPermission by remember { mutableStateOf(false) }
-
     // Use Accompanist Permission API to handle permission requests
     val cameraPermissionState = rememberPermissionState(permission = Manifest.permission.CAMERA)
 
@@ -92,7 +91,7 @@ fun CameraPreviewScreen(navController: NavHostController) {
     }
 }
 
-fun captureImage(imageCapture: ImageCapture, context: Context,navController: NavHostController) {
+fun captureImage(imageCapture: ImageCapture, context: Context,navController: NavHostController,position: String) {
     val name = "CameraxImage.jpeg"
     val contentValues = ContentValues().apply {
         put(MediaStore.MediaColumns.DISPLAY_NAME, name)
@@ -118,6 +117,7 @@ fun captureImage(imageCapture: ImageCapture, context: Context,navController: Nav
                 outputFileResults.savedUri?.let {
                     saveDataClass(context,"ImageUrl", it.toString())
                     saveDataClass(context,"currentTime", GetCurrentTime())
+                    saveDataClass(context,"Position",position)
                     Log.i("linpoi","CameraX,$it")
                     navController.navigate(Screens.EditPhotoPage.name)
                 }

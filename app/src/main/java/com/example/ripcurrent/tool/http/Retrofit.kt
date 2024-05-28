@@ -1,13 +1,15 @@
 package com.example.ripcurrent.tool.http
 
+
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+const val URL = "http://192.168.151.69/rip_current/"
 object Retrofit {
-    private const val BASE_URL = "http://192.168.50.160/rip_current/"
+
     private val logging = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
 
     // 攔截器
@@ -23,7 +25,7 @@ object Retrofit {
     //
     val apiService: ApiService by lazy {
         Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(URL)
             .addConverterFactory( MoshiConverterFactory.create(moshi))
             .client(okHttpClient)
             .build()

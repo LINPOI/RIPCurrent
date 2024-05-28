@@ -62,9 +62,11 @@ fun EditPhotoInformationPage(modifier: Modifier, navController: NavHostControlle
     }
     val bitmap= readDataClass_Bitmap(context,"bitmap")
     val currentTime = readDataClass(context,"currentTime")?:GetCurrentTime()
+    val position= readDataClass(context,"Position","")
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
     val clipboardManager = LocalClipboardManager.current
+
    val coordinte= getCoordinate()
     Scaffold (
         topBar = {
@@ -109,6 +111,7 @@ fun EditPhotoInformationPage(modifier: Modifier, navController: NavHostControlle
                                 })
                             })
                         Text(text = stringResource(R.string.filming_time)+":"+currentTime.timeFormatter1)
+                        Text(text = stringResource(R.string.direction)+":$position")
                         Row (modifier = modifier
                             .fillMaxWidth()
                             .padding(10.dp), verticalAlignment = Alignment.CenterVertically,horizontalArrangement = Arrangement.End){
@@ -119,7 +122,7 @@ fun EditPhotoInformationPage(modifier: Modifier, navController: NavHostControlle
 
                                         //SaveBitmapAsPNG(bitmap, context)  //儲存於本機
                                         val filename=coordinte.address+member.MemberName+currentTime.timeFormatter2
-                                        val info=PhotoInfo(PhotoLocation = coordinte.address, PhotoCoordinate_lat = coordinte.lat.toString(), PhotoCoordinate_lng = coordinte.lng.toString(), PhotoFilming_time = currentTime.timeFormatter2)
+                                        val info=PhotoInfo(PhotoLocation = coordinte.address, PhotoCoordinate_lat = coordinte.lat.toString(), PhotoCoordinate_lng = coordinte.lng.toString(), PhotoFilming_time = currentTime.timeFormatter2, PhotoPosition = position)
                                         //Log.i("MyLog","$info")
                                         CoroutineScope(Dispatchers.Main).launch {
                                             UploadImageAndJson(filename,bitmap,info)

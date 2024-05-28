@@ -33,10 +33,12 @@
     <string name="coordinate">Coordinate</string>
     <string name="please_log_in_first">Please log in first</string>
     <string name="location">Location</string>
-    <string name="filming_time">filming time</string>
+    <string name="filming_time">Filming time</string>
     <string name="request_location_permission">Request location permission</string>
     <string name="this_app_requires_location_permission_to_obtain_your_current_location">This app requires location permission to obtain your current location</string>
     <string name="location_permission_required">Location permission required</string>
     <string name="reset">reset</string>
     <string name="near_to_far">near to far</string>
+    <string name="position">Position</string>
+    <string name="direction">Direction</string>
 </resources>
