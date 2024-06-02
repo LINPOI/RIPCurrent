@@ -5,16 +5,21 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
+import com.example.ripcurrent.R
+import java.lang.Math.toDegrees
 
 @Composable
-fun GetPosition():String{
+fun GetPosition(modifier: Modifier):String{
 
         val context = LocalContext.current
         var rotationAngle by remember { mutableStateOf(0f) }
@@ -43,7 +48,24 @@ fun GetPosition():String{
                                 val y = magneticValues[1]
                                 val z = magneticValues[2]
                                 // Calculate the rotation angle using atan2 function.
-                                 angle = Math.toDegrees(Math.atan2(y.toDouble(), x.toDouble())).toFloat()*-1
+                                val horizontalAngle =
+                                    toDegrees(kotlin.math.atan2(y.toDouble(), x.toDouble())).toFloat() * -1
+                                val verticalAngle =
+                                    toDegrees(kotlin.math.atan2(z.toDouble(), x.toDouble())).toFloat()
+                                Log.i("linpoi","$horizontalAngle, $verticalAngle")
+                                if(horizontalAngle+180>180){
+                                    if(verticalAngle+180<180) {
+                                        angle = horizontalAngle
+                                    }else {
+                                        angle = verticalAngle
+                                    }
+                                }else if(horizontalAngle+180<180){
+                                    if(verticalAngle+180>180) {
+                                        angle = verticalAngle
+                                    }else {
+                                        angle = horizontalAngle
+                                    }
+                                }
                                 rotationAngle = angle
                             }
                             Sensor.TYPE_GYROSCOPE -> {
@@ -60,6 +82,23 @@ fun GetPosition():String{
                 }
             }, magnetometer, SensorManager.SENSOR_DELAY_GAME)
         }
+//    Canvas(modifier = modifier.fillMaxSize()) {
+//        // Draw compass needle
+//        val centerX = size.width / 2
+//        val centerY = size.height / 2
+//        val needleLength = size.width / 3
+//        val needleColor = Color.Red
+//
+//        rotate(rotationAngle) {
+//            drawLine(
+//                color = needleColor,
+//                start = Offset(centerX, centerY),
+//                end = Offset(centerX + needleLength, centerY),
+//                strokeWidth = 8.dp.toPx()
+//            )
+//        }
+//    }
+    UdmImage(imageResource = R.drawable.compass,modifier=modifier.graphicsLayer(rotationZ = rotationAngle+90))
     var positionAngle = angle + 180
     if(positionAngle>337.5 || positionAngle<=22.5){
         towards = "東"

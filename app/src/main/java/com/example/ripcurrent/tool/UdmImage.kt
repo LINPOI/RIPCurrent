@@ -14,12 +14,12 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun UdmImage(imageResource:Int,size:Dp=71.dp,width: Dp =size,height:Dp=size, press:()->Unit={}) {
+fun UdmImage(imageResource:Int,size:Dp=71.dp,width: Dp =size,height:Dp=size,modifier: Modifier = Modifier, press:()->Unit={}) {
     //71.9 60
     Image(
         painter = painterResource(id = imageResource),
         contentDescription = null,
-        modifier = Modifier
+        modifier = modifier
             .padding(bottom = 0.5.dp)
             //.border(0.5.dp,Color.Black)
             .size(width = width, height =height)
