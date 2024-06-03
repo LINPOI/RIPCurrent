@@ -41,4 +41,5 @@
     <string name="near_to_far">近→遠</string>
     <string name="position">位置</string>
     <string name="direction">方向</string>
+    <string name="the_photo_you_selected_is_not_supported">您選擇的照片不支持</string>
 </resources>

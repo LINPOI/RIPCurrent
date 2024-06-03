@@ -5,7 +5,6 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -52,7 +51,7 @@ fun GetPosition(modifier: Modifier):String{
                                     toDegrees(kotlin.math.atan2(y.toDouble(), x.toDouble())).toFloat() * -1
                                 val verticalAngle =
                                     toDegrees(kotlin.math.atan2(z.toDouble(), x.toDouble())).toFloat()
-                                Log.i("linpoi","$horizontalAngle, $verticalAngle")
+                                //Log.i("linpoi","$horizontalAngle, $verticalAngle")
                                 if(horizontalAngle+180>180){
                                     if(verticalAngle+180<180) {
                                         angle = horizontalAngle

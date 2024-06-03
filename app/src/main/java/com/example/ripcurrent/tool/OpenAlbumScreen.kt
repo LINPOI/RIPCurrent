@@ -61,6 +61,7 @@ fun OpenAlbumScreen(
                         Log.i("0123", "新增圖片")
                         //解碼圖片
                         val bitmap = BitmapFactory.decodeStream(stream)
+                        saveDataClass(context,"updatePicture",bitmap)
                         //丟回圖片變數
                         selectedImage = bitmap?.asImageBitmap()
                         //保存圖片
@@ -68,7 +69,10 @@ fun OpenAlbumScreen(
                     }
                     navController.navigate(Screens.EditPhotoPage.name)
                 } catch (e: Exception) {
-                    Log.e("0123", "Error: ${e.message}")
+                    Log.e("linpoi", "singleLauncherError: ${e.message}")
+                    saveDataClass(context,"ImageUrl", "")
+                    showToast(context, R.string.the_photo_you_selected_is_not_supported)
+                    navController.navigate(Screens.CameraPage.name)
                 }
             }
         }
@@ -96,7 +100,13 @@ fun OpenAlbumScreen(
             ,
             shape = MaterialTheme.shapes.extraSmall,
             onClick = {
-                singleLauncher.launch(PickVisualMediaRequest())
+                try {
+                    singleLauncher.launch(PickVisualMediaRequest())
+                }catch (e:Exception){
+                    Log.e("linpoi", "Error: OpenAlbumScreen${e.message}")
+
+                }
+
             }
         ) {
             Text(text = stringResource(R.string.open_photo_album), )

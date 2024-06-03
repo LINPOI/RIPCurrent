@@ -3,6 +3,7 @@ package com.example.ripcurrent.tool
 import android.Manifest
 import android.content.ContentValues
 import android.content.Context
+import android.graphics.BitmapFactory
 import android.os.Build
 import android.provider.MediaStore
 import android.util.Log
@@ -31,6 +32,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavHostController
 import com.example.ripcurrent.Screens
+import com.example.ripcurrent.page.rotateBitmap
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
@@ -115,6 +117,19 @@ fun captureImage(imageCapture: ImageCapture, context: Context,navController: Nav
             override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                 Log.i("linpoi","Successes")
                 outputFileResults.savedUri?.let {
+                    val inputStream =if(it.toString() != "") context.contentResolver.openInputStream(it) else null
+
+
+                    inputStream?.use { stream ->
+
+                        Log.i("0123", "新增圖片")
+                        //解碼圖片
+                        var bitmap = BitmapFactory.decodeStream(stream)
+                        bitmap = rotateBitmap(bitmap, 90f)
+                        //丟回圖片變數
+                        saveDataClass(context,"updatePicture",bitmap)
+                        //保存圖片
+                    }
                     saveDataClass(context,"ImageUrl", it.toString())
                     saveDataClass(context,"currentTime", GetCurrentTime())
                     saveDataClass(context,"Position",position)
