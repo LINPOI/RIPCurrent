@@ -9,7 +9,6 @@ import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.ripcurrent.tool.backGroundHint.NotificationButton
 import com.example.ripcurrent.ui.theme.RipcurrentTheme
 import com.google.android.gms.location.FusedLocationProviderClient
 
@@ -34,8 +33,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             RipcurrentTheme {
-               // AppNavigator()
-                NotificationButton()
+               AppNavigator()
             }
         }
     }
@@ -45,7 +43,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun GreetingPreview() {
     RipcurrentTheme {
-       // AppNavigator()
-        NotificationButton()
+       AppNavigator()
     }
 }

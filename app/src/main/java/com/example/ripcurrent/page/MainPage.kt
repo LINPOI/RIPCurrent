@@ -46,9 +46,9 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
+import com.example.ripcurrent.Data.PhotoInfoResponse
 import com.example.ripcurrent.R
 import com.example.ripcurrent.Screens
-import com.example.ripcurrent.tool.Data.PhotoInfoResponse
 import com.example.ripcurrent.tool.DoubleBackHandler
 import com.example.ripcurrent.tool.PhotoViewModel
 import com.example.ripcurrent.tool.UdmImage
@@ -193,7 +193,7 @@ fun getDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double 
 
 
 @Composable
-fun RipCurrentInfo(photoInfo: PhotoInfoResponse,navController: NavHostController,imageClick: () -> Unit = {} ) {
+fun RipCurrentInfo(photoInfo: PhotoInfoResponse, navController: NavHostController, imageClick: () -> Unit = {} ) {
     val context = LocalContext.current
     val url = "${URL}photo/get/one/"
     val title =

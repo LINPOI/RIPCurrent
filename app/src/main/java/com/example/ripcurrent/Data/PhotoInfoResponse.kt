@@ -1,4 +1,4 @@
-package com.example.ripcurrent.tool.Data
+package com.example.ripcurrent.Data
 data class PhotoInfoResponse(
     var PhotoName:String="",
     var PhotoLocation: String = "",

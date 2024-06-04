@@ -41,8 +41,8 @@ import androidx.navigation.NavHostController
 import com.example.ripcurrent.R
 import com.example.ripcurrent.Screens
 import com.example.ripcurrent.tool.BackHandlerPress
-import com.example.ripcurrent.tool.Data.Member
-import com.example.ripcurrent.tool.Data.PhotoInfo
+import com.example.ripcurrent.Data.Member
+import com.example.ripcurrent.Data.PhotoInfo
 import com.example.ripcurrent.tool.GetCurrentTime
 import com.example.ripcurrent.tool.UdmtextFields
 import com.example.ripcurrent.tool.http.UploadImageAndJson
@@ -122,7 +122,7 @@ fun EditPhotoInformationPage(modifier: Modifier, navController: NavHostControlle
 
                                         //SaveBitmapAsPNG(bitmap, context)  //儲存於本機
                                         val filename=coordinte.address+member.MemberName+currentTime.timeFormatter2
-                                        val info=PhotoInfo(PhotoLocation = coordinte.address, PhotoCoordinate_lat = coordinte.lat.toString(), PhotoCoordinate_lng = coordinte.lng.toString(), PhotoFilming_time = currentTime.timeFormatter2, PhotoPosition = position)
+                                        val info= PhotoInfo(PhotoLocation = coordinte.address, PhotoCoordinate_lat = coordinte.lat.toString(), PhotoCoordinate_lng = coordinte.lng.toString(), PhotoFilming_time = currentTime.timeFormatter2, PhotoPosition = position)
                                         //Log.i("MyLog","$info")
                                         CoroutineScope(Dispatchers.Main).launch {
                                             UploadImageAndJson(filename,bitmap,info)

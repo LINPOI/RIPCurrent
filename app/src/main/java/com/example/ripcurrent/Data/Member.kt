@@ -1,4 +1,4 @@
-package com.example.ripcurrent.tool.Data
+package com.example.ripcurrent.Data
 
 data class Member (
     var MemberGmail: String="",

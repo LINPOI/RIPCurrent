@@ -53,7 +53,7 @@ android {
 dependencies {
 
 
-
+    //compose
     implementation("com.google.accompanist:accompanist-permissions:0.31.1-alpha")
     implementation ("androidx.core:core-ktx:1.7.0")
     implementation ("androidx.compose.ui:ui:1.6.7")
@@ -61,7 +61,7 @@ dependencies {
     implementation ("androidx.compose.ui:ui-tooling-preview:1.6.7")
     implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.4.1")
     implementation ("androidx.activity:activity-compose:1.4.0")
-
+    //viewmodel
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.0")
     implementation ("androidx.activity:activity-compose:1.3.1")
     implementation ("androidx.compose.runtime:runtime-livedata:1.6.7")
@@ -99,6 +99,7 @@ dependencies {
     implementation ("androidx.camera:camera-camera2:${cameraxVersion}")
     implementation ("androidx.camera:camera-view:${cameraxVersion}")
     implementation ("androidx.camera:camera-lifecycle:$cameraxVersion")
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

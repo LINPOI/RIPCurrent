@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.ripcurrent.tool.Data.PhotoInfoResponse
+import com.example.ripcurrent.Data.PhotoInfoResponse
 import com.example.ripcurrent.tool.http.Retrofit
 import kotlinx.coroutines.launch
 

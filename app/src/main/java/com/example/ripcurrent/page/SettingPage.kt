@@ -36,7 +36,7 @@ import androidx.navigation.NavHostController
 import com.example.ripcurrent.R
 import com.example.ripcurrent.Screens
 import com.example.ripcurrent.tool.BackHandlerPress
-import com.example.ripcurrent.tool.Data.Member
+import com.example.ripcurrent.Data.Member
 import com.example.ripcurrent.tool.UdmtextFields
 import com.example.ripcurrent.tool.http.Retrofit
 import com.example.ripcurrent.tool.readDataClass

@@ -1,8 +1,8 @@
 package com.example.ripcurrent.tool.http
 
-import com.example.ripcurrent.tool.Data.Member
-import com.example.ripcurrent.tool.Data.MemberResponse
-import com.example.ripcurrent.tool.Data.PhotoInfoResponse
+import com.example.ripcurrent.Data.Member
+import com.example.ripcurrent.Data.MemberResponse
+import com.example.ripcurrent.Data.PhotoInfoResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody

@@ -42,4 +42,6 @@
     <string name="position">Position</string>
     <string name="direction">Direction</string>
     <string name="the_photo_you_selected_is_not_supported">The photo you selected is not supported</string>
+    <string name="warning">Warning</string>
+    <string name="there_is_a_rip_current_occurring_nearby">There is a rip current occurring nearby</string>
 </resources>

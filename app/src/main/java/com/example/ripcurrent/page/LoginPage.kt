@@ -29,7 +29,7 @@ import com.example.ripcurrent.tool.BackHandlerPress
 import com.example.ripcurrent.tool.Check.ExtraSpaces
 import com.example.ripcurrent.tool.Check.Length
 import com.example.ripcurrent.tool.Check.NullData
-import com.example.ripcurrent.tool.Data.Member
+import com.example.ripcurrent.Data.Member
 import com.example.ripcurrent.tool.UdmtextFields
 import com.example.ripcurrent.tool.http.Retrofit
 import com.example.ripcurrent.tool.readDataClass
@@ -115,7 +115,7 @@ fun Wrong(s1:String,s2:String):Int{
     }
 }
 @Composable
-fun alert(member:Member=Member(),navController: NavHostController,ReSourseNav:String):Boolean{
+fun alert(member: Member = Member(), navController: NavHostController, ReSourseNav:String):Boolean{
     val context = LocalContext.current
     var save by remember { mutableStateOf(-1) }
     AlertDialog(

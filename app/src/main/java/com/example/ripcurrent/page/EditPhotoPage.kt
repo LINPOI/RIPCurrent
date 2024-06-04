@@ -35,7 +35,7 @@ import androidx.navigation.NavHostController
 import com.example.ripcurrent.MainActivity
 import com.example.ripcurrent.R
 import com.example.ripcurrent.Screens
-import com.example.ripcurrent.tool.Data.Member
+import com.example.ripcurrent.Data.Member
 import com.example.ripcurrent.tool.HandleBackPress
 import com.example.ripcurrent.tool.readDataClass
 import com.example.ripcurrent.tool.readDataClass_Bitmap
