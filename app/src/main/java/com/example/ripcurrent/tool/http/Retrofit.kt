@@ -7,7 +7,8 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-const val URL = "http://192.168.151.69/rip_current/"
+//const val URL = "http://192.168.159.69/rip_current/"
+const val URL ="http://192.168.50.159/rip_current/"
 object Retrofit {
 
     private val logging = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)

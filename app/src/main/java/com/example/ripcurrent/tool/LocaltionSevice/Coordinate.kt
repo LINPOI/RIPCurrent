@@ -11,7 +11,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.example.ripcurrent.R
-import com.example.ripcurrent.tool.LocationService
+import com.example.ripcurrent.tool.LocaltionSevice.LocationService
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
@@ -27,8 +27,8 @@ data class Coordinate(
 
 
 
-@OptIn(ExperimentalPermissionsApi::class)
 @Composable
+@OptIn(ExperimentalPermissionsApi::class)
 fun getCoordinate(): Coordinate {
     val context = LocalContext.current
     val locationService = remember { LocationService(context) }

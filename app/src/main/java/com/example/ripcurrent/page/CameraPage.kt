@@ -8,8 +8,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.example.ripcurrent.Screens
-import com.example.ripcurrent.tool.BackHandlerPress
-import com.example.ripcurrent.tool.CameraPreviewScreen
+import com.example.ripcurrent.tool.backHandler.BackHandlerPress
+import com.example.ripcurrent.tool.pictureTool.CameraPreviewScreen
 
 @Composable
 fun CameraPage(modifier: Modifier, navController: NavHostController) {

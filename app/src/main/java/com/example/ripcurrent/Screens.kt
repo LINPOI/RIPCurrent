@@ -9,4 +9,5 @@ enum class Screens {
     EditPhotoPage,
     EditPhotoInformationPage,
     ShowImagePage,
+    SearchPage ;
 }

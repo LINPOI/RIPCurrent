@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -33,14 +34,14 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.ripcurrent.Data.Member
 import com.example.ripcurrent.R
 import com.example.ripcurrent.Screens
-import com.example.ripcurrent.tool.BackHandlerPress
-import com.example.ripcurrent.Data.Member
-import com.example.ripcurrent.tool.UdmtextFields
+import com.example.ripcurrent.tool.backHandler.BackHandlerPress
+import com.example.ripcurrent.tool.custmozed.UdmtextFields
 import com.example.ripcurrent.tool.http.Retrofit
-import com.example.ripcurrent.tool.readDataClass
-import com.example.ripcurrent.tool.saveDataClass
+import com.example.ripcurrent.tool.savedataclass.readDataClass
+import com.example.ripcurrent.tool.savedataclass.saveDataClass
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -50,10 +51,12 @@ import kotlinx.coroutines.launch
 fun SettingPage(modifier: Modifier, navController: NavHostController) {
     val context = LocalContext.current
     val focusManager = LocalFocusManager.current
-    val member= readDataClass(context,"Member")?: Member()
+    val member= readDataClass(context,"Member") ?: Member()
     var changeNameisClicked by remember {
         mutableStateOf(false)
     }
+    var sliderPosition by remember { mutableStateOf(100f) }
+    sliderPosition=readDataClass(context,"DistanceHint",100f)
     Scaffold(
 
         topBar = {
@@ -93,7 +96,9 @@ fun SettingPage(modifier: Modifier, navController: NavHostController) {
                     Text(text = stringResource(R.string.click_to_give_name), color = Color.Gray, textDecoration = TextDecoration.Underline,modifier = Modifier.clickable { changeNameisClicked=true })
                 }else if(changeNameisClicked){
                     //如果已命名
-                    member.MemberName= UdmtextFields( keyboardType = KeyboardType.Text, modifier = Modifier.padding(end = 10.dp).height(60.dp)){ name->
+                    member.MemberName= UdmtextFields( keyboardType = KeyboardType.Text, modifier = Modifier
+                        .padding(end = 10.dp)
+                        .height(60.dp)){ name->
                         member.MemberName=name
                         CoroutineScope(Dispatchers.Main).launch {
                             Retrofit.apiService.updateMember(member)
@@ -110,7 +115,9 @@ fun SettingPage(modifier: Modifier, navController: NavHostController) {
                     Text(text = member.MemberName,modifier = Modifier.clickable { changeNameisClicked=true})
                 }
             }
-
+            Text(text = stringResource(id = R.string.warning_distance)+":$sliderPosition")
+            Slider(value = sliderPosition, onValueChange ={ sliderPosition = it },valueRange = 100f..5000f, steps = 49 )
+            saveDataClass(context,"DistanceHint",sliderPosition)
             OutlinedButton(
                 modifier = Modifier
                     .fillMaxWidth()

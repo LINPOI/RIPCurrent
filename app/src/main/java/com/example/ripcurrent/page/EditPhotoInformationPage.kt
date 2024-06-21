@@ -38,16 +38,16 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.example.ripcurrent.R
-import com.example.ripcurrent.Screens
-import com.example.ripcurrent.tool.BackHandlerPress
 import com.example.ripcurrent.Data.Member
 import com.example.ripcurrent.Data.PhotoInfo
-import com.example.ripcurrent.tool.GetCurrentTime
-import com.example.ripcurrent.tool.UdmtextFields
+import com.example.ripcurrent.R
+import com.example.ripcurrent.Screens
+import com.example.ripcurrent.tool.backHandler.BackHandlerPress
+import com.example.ripcurrent.tool.currentTime.GetCurrentTime
+import com.example.ripcurrent.tool.custmozed.UdmtextFields
 import com.example.ripcurrent.tool.http.UploadImageAndJson
-import com.example.ripcurrent.tool.readDataClass
-import com.example.ripcurrent.tool.readDataClass_Bitmap
+import com.example.ripcurrent.tool.savedataclass.readDataClass
+import com.example.ripcurrent.tool.savedataclass.readDataClass_Bitmap
 import getCoordinate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -58,16 +58,16 @@ import kotlinx.coroutines.launch
 fun EditPhotoInformationPage(modifier: Modifier, navController: NavHostController) {
     val context=LocalContext.current
     var member by remember {
-        mutableStateOf(readDataClass(context,"Member")?: Member())
+        mutableStateOf(readDataClass(context,"Member") ?: Member())
     }
     val bitmap= readDataClass_Bitmap(context,"bitmap")
-    val currentTime = readDataClass(context,"currentTime")?:GetCurrentTime()
+    val currentTime = readDataClass(context,"currentTime") ?: GetCurrentTime()
     val position= readDataClass(context,"Position","")
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
     val clipboardManager = LocalClipboardManager.current
 
-   val coordinte= getCoordinate()
+   val coordinate= getCoordinate()
     Scaffold (
         topBar = {
             Row (modifier = modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically,horizontalArrangement = Arrangement.Center){
@@ -98,16 +98,16 @@ fun EditPhotoInformationPage(modifier: Modifier, navController: NavHostControlle
                         UdmtextFields(R.string.user, showContent = member.MemberName, imeAction = ImeAction.Next){
                             if(it!=member.MemberName)member.MemberName=it
                         }
-                        Text(text = stringResource(R.string.location)+":${coordinte.address}",
+                        Text(text = stringResource(R.string.location)+":${coordinate.address}",
                             modifier =  Modifier.pointerInput(Unit){
                             detectTapGestures(onLongPress = {
-                                clipboardManager.setText(AnnotatedString(coordinte.address))
+                                clipboardManager.setText(AnnotatedString(coordinate.address))
                             })
                         })
-                        Text(text = stringResource(R.string.coordinate)+":${coordinte.lng},${coordinte.lat}",
+                        Text(text = stringResource(R.string.coordinate)+":${coordinate.lng},${coordinate.lat}",
                             modifier =  Modifier.pointerInput(Unit){
                                 detectTapGestures(onLongPress = {
-                                    clipboardManager.setText(AnnotatedString("${coordinte.lng},${coordinte.lat}"))
+                                    clipboardManager.setText(AnnotatedString("${coordinate.lng},${coordinate.lat}"))
                                 })
                             })
                         Text(text = stringResource(R.string.filming_time)+":"+currentTime.timeFormatter1)
@@ -121,8 +121,8 @@ fun EditPhotoInformationPage(modifier: Modifier, navController: NavHostControlle
                                     if (bitmap != null) {
 
                                         //SaveBitmapAsPNG(bitmap, context)  //儲存於本機
-                                        val filename=coordinte.address+member.MemberName+currentTime.timeFormatter2
-                                        val info= PhotoInfo(PhotoLocation = coordinte.address, PhotoCoordinate_lat = coordinte.lat.toString(), PhotoCoordinate_lng = coordinte.lng.toString(), PhotoFilming_time = currentTime.timeFormatter2, PhotoPosition = position)
+                                        val filename=coordinate.address+member.MemberName+currentTime.timeFormatter2
+                                        val info= PhotoInfo(PhotoLocation = coordinate.address, PhotoCoordinate_lat = coordinate.lat.toString(), PhotoCoordinate_lng = coordinate.lng.toString(), PhotoFilming_time = currentTime.timeFormatter2, PhotoPosition = position)
                                         //Log.i("MyLog","$info")
                                         CoroutineScope(Dispatchers.Main).launch {
                                             UploadImageAndJson(filename,bitmap,info)

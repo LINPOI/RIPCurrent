@@ -1,4 +1,4 @@
-package com.example.ripcurrent.tool
+package com.example.ripcurrent.tool.pictureTool
 //來源 https://github.com/DeepuGeorgeJacob/CmrXTutorial/tree/main
 import android.Manifest
 import android.content.ContentValues
@@ -33,6 +33,8 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.NavHostController
 import com.example.ripcurrent.Screens
 import com.example.ripcurrent.page.rotateBitmap
+import com.example.ripcurrent.tool.currentTime.GetCurrentTime
+import com.example.ripcurrent.tool.savedataclass.saveDataClass
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState

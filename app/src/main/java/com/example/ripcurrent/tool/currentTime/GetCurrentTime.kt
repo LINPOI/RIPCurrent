@@ -1,4 +1,4 @@
-package com.example.ripcurrent.tool
+package com.example.ripcurrent.tool.currentTime
 
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter

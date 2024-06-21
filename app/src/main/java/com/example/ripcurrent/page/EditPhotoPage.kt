@@ -32,15 +32,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.ripcurrent.Data.Member
 import com.example.ripcurrent.MainActivity
 import com.example.ripcurrent.R
 import com.example.ripcurrent.Screens
-import com.example.ripcurrent.Data.Member
-import com.example.ripcurrent.tool.HandleBackPress
-import com.example.ripcurrent.tool.readDataClass
-import com.example.ripcurrent.tool.readDataClass_Bitmap
-import com.example.ripcurrent.tool.saveDataClass
-import com.example.ripcurrent.tool.showToast
+import com.example.ripcurrent.tool.backHandler.HandleBackPress
+import com.example.ripcurrent.tool.savedataclass.readDataClass
+import com.example.ripcurrent.tool.savedataclass.readDataClass_Bitmap
+import com.example.ripcurrent.tool.savedataclass.saveDataClass
+import com.example.ripcurrent.tool.hint.showToast
 import io.getstream.sketchbook.Sketchbook
 import io.getstream.sketchbook.rememberSketchbookController
 
@@ -122,7 +122,7 @@ fun EditPhotoPage(modifier: Modifier, navController: NavHostController) {
 
                         .clickable {
                             var member = readDataClass(context, "Member") ?: Member()
-                            saveDataClass(context, "sSourceNav", Screens.EditPhotoPage.name)
+                            saveDataClass(context, "SourceNav", Screens.EditPhotoPage.name)
                             if (member.MemberGmail == "") {
                                 showToast(context, R.string.please_log_in_first)
                                 navController.navigate(Screens.LoginPage.name)

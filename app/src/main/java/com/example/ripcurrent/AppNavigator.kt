@@ -18,6 +18,7 @@ import com.example.ripcurrent.page.EditPhotoPage
 import com.example.ripcurrent.page.IntroductionToRipCurrentsPage
 import com.example.ripcurrent.page.LoginPage
 import com.example.ripcurrent.page.MainPage
+import com.example.ripcurrent.page.SearchPage
 import com.example.ripcurrent.page.SettingPage
 import com.example.ripcurrent.page.ShowImagePage
 
@@ -71,6 +72,9 @@ fun AppNavigator(
             }
             composable(Screens.ShowImagePage.name) {
                 ShowImagePage(modifier, navController)
+            }
+            composable(Screens.SearchPage.name) {
+                SearchPage(modifier, navController)
             }
         }
     }

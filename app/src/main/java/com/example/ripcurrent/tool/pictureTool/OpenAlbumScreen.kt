@@ -1,4 +1,4 @@
-package com.example.ripcurrent.tool
+package com.example.ripcurrent.tool.pictureTool
 
 import android.content.Context
 import android.graphics.BitmapFactory
@@ -36,6 +36,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.ripcurrent.R
 import com.example.ripcurrent.Screens
+import com.example.ripcurrent.tool.hint.showToast
+import com.example.ripcurrent.tool.position.GetPosition
+import com.example.ripcurrent.tool.savedataclass.saveDataClass
 
 @Composable
 fun OpenAlbumScreen(
@@ -121,7 +124,7 @@ fun OpenAlbumScreen(
                     showToast(context, R.string.shooting_successful)
                 }
         )
-        position=GetPosition(modifier.size(100.dp))
+        position= GetPosition(modifier.size(100.dp))
         Box(modifier = modifier){
             Spacer(modifier = Modifier.padding(horizontal = 60.dp))
         }

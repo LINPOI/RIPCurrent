@@ -1,4 +1,4 @@
-package com.example.ripcurrent.tool.backGroundHint
+package com.example.ripcurrent.tool.hint.backGroundHint
 
 import android.Manifest
 import android.app.NotificationChannel

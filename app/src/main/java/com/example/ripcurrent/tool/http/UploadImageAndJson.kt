@@ -2,7 +2,7 @@ package com.example.ripcurrent.tool.http
 
 import android.graphics.Bitmap
 import android.util.Log
-import com.example.ripcurrent.tool.BitmapToFIle
+import com.example.ripcurrent.tool.pictureTool.BitmapToFIle
 import com.example.ripcurrent.Data.PhotoInfo
 import com.example.ripcurrent.tool.http.Retrofit.apiService
 import com.google.gson.Gson

@@ -17,8 +17,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import com.example.ripcurrent.Screens
-import com.example.ripcurrent.tool.BackHandlerPress
-import com.example.ripcurrent.tool.readDataClass
+import com.example.ripcurrent.tool.backHandler.BackHandlerPress
+import com.example.ripcurrent.tool.savedataclass.readDataClass
 
 @Composable
 fun ShowImagePage( modifier: Modifier = Modifier, navController: NavHostController){

@@ -1,4 +1,4 @@
-package com.example.ripcurrent.tool
+package com.example.ripcurrent.tool.custmozed
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.fillMaxWidth

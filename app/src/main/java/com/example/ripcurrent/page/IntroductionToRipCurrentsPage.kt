@@ -20,8 +20,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.ripcurrent.R
 import com.example.ripcurrent.Screens
-import com.example.ripcurrent.tool.BackHandlerPress
-import com.example.ripcurrent.tool.UdmImage
+import com.example.ripcurrent.tool.backHandler.BackHandlerPress
+import com.example.ripcurrent.tool.custmozed.UdmImage
 
 
 @Composable

@@ -1,8 +1,10 @@
 package com.example.ripcurrent.tool.http
 
+import com.example.ripcurrent.Data.LikePhoto
 import com.example.ripcurrent.Data.Member
 import com.example.ripcurrent.Data.MemberResponse
 import com.example.ripcurrent.Data.PhotoInfoResponse
+import com.example.ripcurrent.Data.UserReq
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
@@ -31,8 +33,14 @@ interface ApiService {
     @Streaming
     @GET("photo/get/folder")
     suspend fun getImages(): Response<ResponseBody>
-    @GET("photo/get/folder/information")
-    suspend fun getImagesInfo(): Response<List<PhotoInfoResponse>>
+    @POST("photo/get/folder/information")
+    suspend fun getImagesInfo(@Body userReq: UserReq): Response<List<PhotoInfoResponse>>
+    //按讚
+    @POST("photo/other/like")
+    suspend fun likePhoto(@Body likePhoto: LikePhoto): Response<MemberResponse>
+    //收回
+    @POST("photo/other/delike")
+    suspend fun delikePhoto(@Body likePhoto: LikePhoto): Response<MemberResponse>
 //    // 學生資料查詢，使用Post，寄送參數，回傳參數
 //    @POST("query/verify") suspend fun authentication(@Body apiService: ApiService): Response<StudentInformationResponse>
 //

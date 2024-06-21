@@ -1,4 +1,4 @@
-package com.example.ripcurrent.tool.backGroundHint
+package com.example.ripcurrent.tool.hint.backGroundHint
 
 import android.Manifest
 import android.app.AlertDialog
@@ -16,35 +16,19 @@ import androidx.annotation.RequiresApi
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableLongStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.ripcurrent.MainActivity
 import com.example.ripcurrent.R
-import kotlinx.coroutines.delay
+import com.example.ripcurrent.tool.savedataclass.saveDataClass
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun NotificationButton() {
     val context = LocalContext.current
     //使用倒數計時器
-    var time by remember { mutableLongStateOf(0L) }
-
-    LaunchedEffect(Unit) {
-        while (true) {
-            delay(1000)
-            time++
-            if(time%3==0L)
-                ShowNotification(context)
-        }
-
-    }
     Button(onClick = {
         ShowNotification(context)
 
@@ -118,6 +102,7 @@ fun ShowNotification(context: Context) {
             // 取消震動
             val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
             vibrator.cancel()
+            saveDataClass(context,"AlertState",true)
         }
         val alertDialog = alertDialogBuilder.create()
         alertDialog.show()

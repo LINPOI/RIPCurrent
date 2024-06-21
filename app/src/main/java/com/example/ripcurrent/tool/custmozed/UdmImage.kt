@@ -1,4 +1,4 @@
-package com.example.ripcurrent.tool
+package com.example.ripcurrent.tool.custmozed
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image

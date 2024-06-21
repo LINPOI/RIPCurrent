@@ -23,17 +23,17 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import changeGmailAddress
+import com.example.ripcurrent.Data.Member
 import com.example.ripcurrent.R
 import com.example.ripcurrent.Screens
-import com.example.ripcurrent.tool.BackHandlerPress
+import com.example.ripcurrent.tool.backHandler.BackHandlerPress
 import com.example.ripcurrent.tool.Check.ExtraSpaces
 import com.example.ripcurrent.tool.Check.Length
 import com.example.ripcurrent.tool.Check.NullData
-import com.example.ripcurrent.Data.Member
-import com.example.ripcurrent.tool.UdmtextFields
+import com.example.ripcurrent.tool.custmozed.UdmtextFields
 import com.example.ripcurrent.tool.http.Retrofit
-import com.example.ripcurrent.tool.readDataClass
-import com.example.ripcurrent.tool.saveDataClass
+import com.example.ripcurrent.tool.savedataclass.readDataClass
+import com.example.ripcurrent.tool.savedataclass.saveDataClass
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -66,11 +66,12 @@ fun LoginPage(modifier: Modifier, navController: NavHostController) {
                 ) {
                     //輸入正確
                     member.MemberGmail= changeGmailAddress(member.MemberGmail).toString()
-                    Log.i("linpoi", "${member.MemberGmail},${it}成功")
+                    Log.i("linpoi", "${member.MemberGmail},${it}${sourceNav}成功")
                     CoroutineScope(Dispatchers.Main).launch {
                         try {
                             if(Retrofit.apiService.loginMember(member).isSuccessful){
                                 //登入成功
+                                Log.i("linpoi", "${member.MemberGmail},${it},${sourceNav}登入成功")
                                 navController.navigate(sourceNav)
                                 saveDataClass(context,"Member",member)
                             }else if (Retrofit.apiService.loginMember(member).code()==401){
@@ -80,7 +81,7 @@ fun LoginPage(modifier: Modifier, navController: NavHostController) {
                             }
 
                         }catch (e:Exception){
-                            Log.i("linpoi", e.toString())
+                            Log.e("linpoi", e.toString())
                         }
 
                         }

@@ -1,4 +1,4 @@
-package com.example.ripcurrent.tool
+package com.example.ripcurrent.tool.hint
 
 import android.annotation.SuppressLint
 import android.content.Context

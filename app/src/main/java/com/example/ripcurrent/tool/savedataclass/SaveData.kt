@@ -1,4 +1,4 @@
-package com.example.ripcurrent.tool
+package com.example.ripcurrent.tool.savedataclass
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -24,6 +24,8 @@ fun saveDataClass(context: Context, key: String, data: Any) {//Member(key)
         is Int -> editor.putInt(key,data)
         is Boolean -> editor.putBoolean(key, data)
         is String -> editor.putString(key, data)
+        is Float -> editor.putFloat(key, data.toFloat())
+        is Double -> editor.putFloat(key, data.toFloat())
         is List<*> -> {
             if (data.all { it is String }) { // 檢查是否所有項目都是字串
                 val stringList = data as List<String>
@@ -85,6 +87,8 @@ fun <T : Any>readDataClass(context: Context, key: String, defaultValue: T): T {
         is String -> sharedPreferences.getString(key, defaultValue as String) as T
         is Int -> sharedPreferences.getInt(key, defaultValue as Int) as T
         is Boolean -> sharedPreferences.getBoolean(key, defaultValue as Boolean) as T
+        is Float -> sharedPreferences.getFloat(key, defaultValue as Float) as T
+        is Double -> sharedPreferences.getFloat(key, defaultValue as Float).toDouble() as T
         is List<*> -> {
             val json = sharedPreferences.getString(key, null)
             if (json != null) {

@@ -1,4 +1,4 @@
-package com.example.ripcurrent.tool
+package com.example.ripcurrent.tool.backHandler
 
 import android.app.Activity
 import android.content.Context
@@ -14,6 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import com.example.ripcurrent.R
+import com.example.ripcurrent.tool.hint.showToast
 
 private var lastToast: Toast? = null
 @Composable
