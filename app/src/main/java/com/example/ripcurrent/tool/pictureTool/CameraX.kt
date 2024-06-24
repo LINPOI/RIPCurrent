@@ -44,9 +44,11 @@ import kotlin.coroutines.suspendCoroutine
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun CameraPreviewScreen(navController: NavHostController) {
+
     val lensFacing = CameraSelector.LENS_FACING_BACK
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
+
     val activity = LocalContext.current as? ComponentActivity
     var hasCameraPermission by remember { mutableStateOf(false) }
     // Use Accompanist Permission API to handle permission requests
@@ -143,7 +145,7 @@ fun captureImage(imageCapture: ImageCapture, context: Context,navController: Nav
             }
 
             override fun onError(exception: ImageCaptureException) {
-                Log.i("linpoi","Failed $exception")
+                Log.e("linpoi","Failed $exception")
                 navController.navigate(Screens.EditPhotoPage.name)
             }
 

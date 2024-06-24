@@ -29,6 +29,7 @@ fun GetPosition(modifier: Modifier):String{
     var angle by remember { mutableStateOf(0f) }
     var isHorizontal by remember { mutableStateOf(false) }
     var isVerticalX by remember { mutableStateOf(false) }
+    var positionAngle by remember { mutableStateOf(0f) }
     LaunchedEffect(key1 = context) {
         val sensorManager = context.getSystemService(SENSOR_SERVICE) as SensorManager
         val magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)
@@ -58,6 +59,7 @@ fun GetPosition(modifier: Modifier):String{
                             }
 
                             rotationAngle = angle
+                            positionAngle =  if(isVerticalX) angle+90 else angle +180
                         }
                         Sensor.TYPE_ACCELEROMETER -> {
                             val accelerationValues = it.values
@@ -77,7 +79,7 @@ fun GetPosition(modifier: Modifier):String{
         sensorManager.registerListener(sensorEventListener, accelerometer, SensorManager.SENSOR_DELAY_GAME)
     }
     UdmImage(imageResource = R.drawable.compass,modifier=modifier.graphicsLayer(rotationZ = rotationAngle+90))
-    var positionAngle =  if(isVerticalX) angle  else angle +180
+
     if(positionAngle>337.5 || positionAngle<=22.5){
         towards = "東"
     }

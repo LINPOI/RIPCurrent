@@ -46,4 +46,5 @@
     <string name="there_is_a_rip_current_occurring_nearby">There is a rip current occurring nearby</string>
     <string name="distance">Distance</string>
     <string name="warning_distance">warning distance</string>
+    <string name="m">m</string>
 </resources>

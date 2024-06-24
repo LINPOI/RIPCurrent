@@ -46,4 +46,5 @@
     <string name="there_is_a_rip_current_occurring_nearby">附近有離岸流發生</string>
     <string name="distance">距離</string>
     <string name="warning_distance">警示距離</string>
+    <string name="m">公尺</string>
 </resources>

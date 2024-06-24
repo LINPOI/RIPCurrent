@@ -115,7 +115,7 @@ fun SettingPage(modifier: Modifier, navController: NavHostController) {
                     Text(text = member.MemberName,modifier = Modifier.clickable { changeNameisClicked=true})
                 }
             }
-            Text(text = stringResource(id = R.string.warning_distance)+":$sliderPosition")
+            Text(text = stringResource(id = R.string.warning_distance)+":$sliderPosition"+stringResource(id = R.string.m))
             Slider(value = sliderPosition, onValueChange ={ sliderPosition = it },valueRange = 100f..5000f, steps = 49 )
             saveDataClass(context,"DistanceHint",sliderPosition)
             OutlinedButton(
