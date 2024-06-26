@@ -55,6 +55,9 @@ fun SettingPage(modifier: Modifier, navController: NavHostController) {
     var changeNameisClicked by remember {
         mutableStateOf(false)
     }
+    var alertState by remember {
+        mutableStateOf(readDataClass(context,"AlertState",false))
+    }
     var sliderPosition by remember { mutableStateOf(100f) }
     sliderPosition=readDataClass(context,"DistanceHint",100f)
     Scaffold(
@@ -68,6 +71,9 @@ fun SettingPage(modifier: Modifier, navController: NavHostController) {
                 horizontalArrangement = Arrangement.Center){
                 Text(text = stringResource(R.string.setting), fontSize = 26.sp)
             }
+
+        } ,
+                bottomBar={
 
         }
     ){
@@ -117,6 +123,12 @@ fun SettingPage(modifier: Modifier, navController: NavHostController) {
             }
             Text(text = stringResource(id = R.string.warning_distance)+":$sliderPosition"+stringResource(id = R.string.m))
             Slider(value = sliderPosition, onValueChange ={ sliderPosition = it },valueRange = 100f..5000f, steps = 49 )
+            Text(text = if(alertState) "通知開啟中" else "通知已暫時關閉，按此開啟",modifier = Modifier.clickable {
+                if(!alertState){
+                    alertState=true
+                    saveDataClass(context,"AlertState",true)
+                }
+            })
             saveDataClass(context,"DistanceHint",sliderPosition)
             OutlinedButton(
                 modifier = Modifier

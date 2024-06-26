@@ -99,11 +99,11 @@ fun EditPhotoInformationPage(modifier: Modifier, navController: NavHostControlle
                             if(it!=member.MemberName)member.MemberName=it
                         }
                         Text(text = stringResource(R.string.location)+":${coordinate.address}",
-                            modifier =  Modifier.pointerInput(Unit){
-                            detectTapGestures(onLongPress = {
-                                clipboardManager.setText(AnnotatedString(coordinate.address))
+                                modifier =  Modifier.pointerInput(Unit){
+                                detectTapGestures(onLongPress = {
+                                    clipboardManager.setText(AnnotatedString(coordinate.address))
+                                })
                             })
-                        })
                         Text(text = stringResource(R.string.coordinate)+":${coordinate.lng},${coordinate.lat}",
                             modifier =  Modifier.pointerInput(Unit){
                                 detectTapGestures(onLongPress = {

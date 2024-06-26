@@ -88,9 +88,10 @@ import kotlin.math.pow
 import kotlin.math.sin
 import kotlin.math.sqrt
 
-const val TIMESORT=1
-const val LIKESORT=2
-const val DISTANCESORT=3
+const val TIMESORT = 1
+const val LIKESORT = 2
+const val DISTANCESORT = 3
+
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun MainPage(modifier: Modifier = Modifier, navController: NavHostController) {
@@ -116,10 +117,20 @@ fun MainPage(modifier: Modifier = Modifier, navController: NavHostController) {
     }
     //給予要求
     var userReq by remember {
-        mutableStateOf( UserReq(UserGmail = member.MemberGmail, Sequence = sequence, UserLongitude = coordinate.lng.toFloat(), UserLatitude =coordinate.lat.toFloat()))
+        mutableStateOf(
+            UserReq(
+                UserGmail = member.MemberGmail,
+                Sequence = sequence,
+                UserLongitude = coordinate.lng.toFloat(),
+                UserLatitude = coordinate.lat.toFloat()
+            )
+        )
     }
     //圖片資訊
-    var photoInfo = PhotoViewModel(context, userReq =userReq ).photoInfo
+    var photoInfo by remember {
+        mutableStateOf(SnapshotStateList<PhotoInfoResponse>())
+    }
+
     coordinate = getCoordinate()
     var buttonBackColor by remember {
         mutableStateOf(false)
@@ -137,42 +148,57 @@ fun MainPage(modifier: Modifier = Modifier, navController: NavHostController) {
     var alertState by remember {
         mutableStateOf(readDataClass(context, "AlertState", false))
     }
-    distanceHint=readDataClass(context,"DistanceHint",100f).toDouble()
-   // Log.i("linpoi", "distance:$distance,distanceHint:$distanceHint")
+    distanceHint = readDataClass(context, "DistanceHint", 100f).toDouble()
+    // Log.i("linpoi", "distance:$distance,distanceHint:$distanceHint")
     LaunchedEffect(Unit) {
-        delay(1000)
+
+        photoInfo=PhotoViewModel(context, userReq = userReq).photoInfo
         // 更新 coordinate
         if (locationPermissionState.status.isGranted) {
             locationService.getLastLocation()
             locationService.locationFlow.collect { location ->
                 location?.let {
-                 //   Log.e("linpoi", "location:$it")
+                    //   Log.e("linpoi", "location:$it")
                     coordinate = getAddressFromCoordinates(context, it.first, it.second)
                 }
-                // 更新距離
-                distance = Distance(photoInfo, coordinate)
-            //    Log.e("linpoi", "distance:$distance,distanceHint:$distanceHint")
-                if (distance <= distanceHint && !alertState) {
-                    Log.e("linpoi", "ShowNotification")
-                    while(true){
-                        ShowNotification(context)
-                        delay(180000)
-                    }
-                }
-                delay(600000)
-                alertState=false
-                saveDataClass(context,"AlertState",true)
+
+
+
+            }
+        }
+        delay(10000)
+    }
+    // 更新距離
+    distance = Distance(photoInfo, coordinate)
+
+    LaunchedEffect(distanceHint, distance) {
+        Log.e(
+            "linpoi",
+            "distance:$distance,distanceHint:$distanceHint,alertState:$alertState"
+        )
+        val con = distance >= distance && alertState
+        Log.e("linpoi", con.toString())
+        if (con) {
+            Log.e("linpoi", "ShowNotification")
+            while (true) {
+                ShowNotification(context)
+                delay(180000)
             }
 
-
         }
+                delay(600000)
+                alertState=true
+                saveDataClass(context,"AlertState",true)
     }
     Scaffold(
         topBar = {
             Column(
                 modifier
                     .border(0.5.dp, MaterialTheme.colorScheme.onBackground)
-                    .fillMaxWidth(),verticalArrangement = Arrangement.Center,horizontalAlignment = Alignment.CenterHorizontally) {
+                    .fillMaxWidth(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -187,7 +213,7 @@ fun MainPage(modifier: Modifier = Modifier, navController: NavHostController) {
                         keyboardType = KeyboardType.Text
                     ) {
                         //1.如同點選搜尋時執行指令
-                        photoInfo=Search(it, photoInfo)
+                        photoInfo = Search(it, photoInfo)
                         Log.i("linpoi", "photoInfo:$photoInfo")
                     }
                     Icon(imageVector = Icons.TwoTone.Search, contentDescription = null,
@@ -196,18 +222,22 @@ fun MainPage(modifier: Modifier = Modifier, navController: NavHostController) {
                             .size(40.dp)
                             .clickable {
                                 //與1.相同
-                                photoInfo=Search(location, photoInfo)
+                                photoInfo = Search(location, photoInfo)
                                 focusManager.clearFocus()
                             })
                 }
 //                NearToFarButton(photoInfo, coordinate,buttonBackColor){
 //                    buttonBackColor = true
 //                }
-                Row (modifier = Modifier.fillMaxWidth(),verticalAlignment = Alignment.CenterVertically,horizontalArrangement = Arrangement.Center){
-                    if(openSort){
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    if (openSort) {
                         OutlinedButton(onClick = {
-                            userReq.Sequence=TIMESORT
-                            photoInfo = PhotoViewModel(context,userReq).photoInfo
+                            userReq.Sequence = TIMESORT
+                            photoInfo = PhotoViewModel(context, userReq).photoInfo
                             saveDataClass(context, "Sequence", TIMESORT)
 
                             navController.navigate(Screens.MainPage.name)
@@ -215,8 +245,8 @@ fun MainPage(modifier: Modifier = Modifier, navController: NavHostController) {
                             Text(text = "時間優先")
                         }
                         OutlinedButton(onClick = {
-                            userReq.Sequence= LIKESORT
-                            photoInfo = PhotoViewModel(context,userReq).photoInfo
+                            userReq.Sequence = LIKESORT
+                            photoInfo = PhotoViewModel(context, userReq).photoInfo
                             saveDataClass(context, "Sequence", LIKESORT)
 
                             navController.navigate(Screens.MainPage.name)
@@ -224,8 +254,8 @@ fun MainPage(modifier: Modifier = Modifier, navController: NavHostController) {
                             Text(text = "按讚優先")
                         }
                         OutlinedButton(onClick = {
-                            userReq.Sequence= DISTANCESORT
-                            photoInfo = PhotoViewModel(context,userReq).photoInfo
+                            userReq.Sequence = DISTANCESORT
+                            photoInfo = PhotoViewModel(context, userReq).photoInfo
                             saveDataClass(context, "Sequence", DISTANCESORT)
 
                             navController.navigate(Screens.MainPage.name)
@@ -234,7 +264,10 @@ fun MainPage(modifier: Modifier = Modifier, navController: NavHostController) {
                         }
                     }
                 }
-                Icon(imageVector = if(openSort)Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown, contentDescription = null,Modifier.clickable { openSort = !openSort })
+                Icon(
+                    imageVector = if (openSort) Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown,
+                    contentDescription = null,
+                    Modifier.clickable { openSort = !openSort })
             }
         },
         bottomBar = {
@@ -285,7 +318,7 @@ fun MainPage(modifier: Modifier = Modifier, navController: NavHostController) {
                     it,
                     index,
                     navController,
-                    userReq ,
+                    userReq,
                     imageClick = {
                         CoroutineScope(Dispatchers.Main).launch {
                             navController.navigate(Screens.ShowImagePage.name)
@@ -310,7 +343,6 @@ fun MainPage(modifier: Modifier = Modifier, navController: NavHostController) {
 //                    Text(text = "d")
 //                }
                 ReStartButton(context) {
-                    photoInfo = PhotoViewModel(context,userReq).photoInfo
 
                     CoroutineScope(Dispatchers.Main).launch {
                         // NearToFar(photoInfo,coordinate)
@@ -395,7 +427,7 @@ fun RipCurrentInfo(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.End
                 ) {
-                    val isLike=photoInfo.IsLike
+                    val isLike = photoInfo.IsLike
                     var like by remember {
                         mutableStateOf(photoInfo.IsLike)
                     }
@@ -411,8 +443,10 @@ fun RipCurrentInfo(
                                     CoroutineScope(Dispatchers.Main).launch {
                                         try {
                                             // 更新
-                                            val updatedQuantity = updateLikeStatus(like, photoInfo, member, userReq)
-                                            likeQuantity = updatedQuantity.body()!![index].LikeQuantity
+                                            val updatedQuantity =
+                                                updateLikeStatus(like, photoInfo, member, userReq)
+                                            likeQuantity =
+                                                updatedQuantity.body()!![index].LikeQuantity
                                             like = updatedQuantity.body()!![index].IsLike
                                             likeClick()
                                             Log.i("linpoi", "likeclick:$photoInfo")
@@ -518,8 +552,6 @@ fun Search(string: String, list: List<PhotoInfoResponse>): SnapshotStateList<Pho
 }
 
 
-
-
 fun Distance(photoInfo: MutableList<PhotoInfoResponse>, coordinate: Coordinate): Double {
     try {
 //        val lat1 = 23.575355351988794
@@ -531,14 +563,14 @@ fun Distance(photoInfo: MutableList<PhotoInfoResponse>, coordinate: Coordinate):
         val myLat = coordinate.lat
         val myLng = coordinate.lng
         var distance = Double.MAX_VALUE
-        photoInfo.forEach{
-            var lat =it.PhotoCoordinate_lat.toDoubleOrNull()
+        photoInfo.forEach {
+            var lat = it.PhotoCoordinate_lat.toDoubleOrNull()
             var lng = it.PhotoCoordinate_lng.toDoubleOrNull()
             lat = lat ?: -1.0
             lng = lng ?: -1.0
-                val value=calculateDistance(lat, lng, myLat, myLng)
-            if(value<distance){
-                distance=value
+            val value = calculateDistance(lat, lng, myLat, myLng)
+            if (value < distance) {
+                distance = value
             }
         }
 
@@ -566,7 +598,12 @@ fun calculateDistance(lat1: Double, lng1: Double, lat2: Double, lng2: Double): D
     return earthRadius * c * 1000 // Distance in meters
 }
 
-suspend fun updateLikeStatus(isLiked: Boolean, photoInfo: PhotoInfoResponse, member: Member,userReq: UserReq):Response<List<PhotoInfoResponse>> {
+suspend fun updateLikeStatus(
+    isLiked: Boolean,
+    photoInfo: PhotoInfoResponse,
+    member: Member,
+    userReq: UserReq
+): Response<List<PhotoInfoResponse>> {
     if (!isLiked) {
         Retrofit.apiService.likePhoto(
             LikePhoto(

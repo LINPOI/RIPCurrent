@@ -102,7 +102,7 @@ fun ShowNotification(context: Context) {
             // 取消震動
             val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
             vibrator.cancel()
-            saveDataClass(context,"AlertState",true)
+            saveDataClass(context,"AlertState",false)
         }
         val alertDialog = alertDialogBuilder.create()
         alertDialog.show()
