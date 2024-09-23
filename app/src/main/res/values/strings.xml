@@ -47,4 +47,7 @@
     <string name="distance">Distance</string>
     <string name="warning_distance">warning distance</string>
     <string name="m">m</string>
+    <string name="time_priority">time priority</string>
+    <string name="like_first">Like first</string>
+    <string name="distance_first">distance first</string>
 </resources>

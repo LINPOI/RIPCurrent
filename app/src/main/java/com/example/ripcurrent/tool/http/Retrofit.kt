@@ -9,6 +9,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 const val URL = "http://192.168.159.69/rip_current/"
 const val URL2 ="http://192.168.50.159/rip_current/"
+const val SELECTURL= URL2
+
 object Retrofit {
 
     private val logging = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -24,9 +26,11 @@ object Retrofit {
         .build()
 
     //
+
+    //
     val apiService: ApiService by lazy {
         Retrofit.Builder()
-            .baseUrl(URL)
+            .baseUrl(SELECTURL)
             .addConverterFactory( MoshiConverterFactory.create(moshi))
             .client(okHttpClient)
             .build()

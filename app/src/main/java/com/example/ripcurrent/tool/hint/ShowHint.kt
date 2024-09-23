@@ -73,7 +73,19 @@ fun showToast(context: Context, message: Int, insurance: Boolean = false) {
         lastToast = Toast.makeText(context, context.getString(message), Toast.LENGTH_SHORT)
         lastToast?.show()
     }
+}
+fun showToast(context: Context, message: String, insurance: Boolean = false) {
+    if (insurance) {
+        Handler(Looper.getMainLooper()).post {
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()//訊息文字、顯示時長
+        }
+    } else {
+        // 取消先前的 Toast
+        lastToast?.cancel()
 
-
+        // 顯示新的 Toast
+        lastToast = Toast.makeText(context, message, Toast.LENGTH_SHORT)
+        lastToast?.show()
+    }
 }
 

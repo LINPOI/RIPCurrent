@@ -25,7 +25,7 @@ fun saveDataClass(context: Context, key: String, data: Any) {//Member(key)
         is Boolean -> editor.putBoolean(key, data)
         is String -> editor.putString(key, data)
         is Float -> editor.putFloat(key, data.toFloat())
-        is Double -> editor.putFloat(key, data.toFloat())
+        is Double -> editor.putFloat(key, data.toDouble().toFloat())
         is List<*> -> {
             if (data.all { it is String }) { // 檢查是否所有項目都是字串
                 val stringList = data as List<String>

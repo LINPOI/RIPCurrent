@@ -47,4 +47,7 @@
     <string name="distance">距離</string>
     <string name="warning_distance">警示距離</string>
     <string name="m">公尺</string>
+    <string name="time_priority">時間優先</string>
+    <string name="like_first">按讚優先</string>
+    <string name="distance_first">距離優先</string>
 </resources>

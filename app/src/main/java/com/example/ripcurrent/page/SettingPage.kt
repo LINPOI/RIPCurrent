@@ -52,7 +52,7 @@ fun SettingPage(modifier: Modifier, navController: NavHostController) {
     val context = LocalContext.current
     val focusManager = LocalFocusManager.current
     val member= readDataClass(context,"Member") ?: Member()
-    var changeNameisClicked by remember {
+    var changeNameIsClicked by remember {
         mutableStateOf(false)
     }
     var alertState by remember {
@@ -73,9 +73,7 @@ fun SettingPage(modifier: Modifier, navController: NavHostController) {
             }
 
         } ,
-                bottomBar={
 
-        }
     ){
         Column(
             modifier= Modifier
@@ -97,10 +95,10 @@ fun SettingPage(modifier: Modifier, navController: NavHostController) {
                     //如果沒註冊，則註冊
                     saveDataClass(context, "SourceNav", Screens.SettingPage.name)
                     Text(text = stringResource(R.string.not_logged_in), color = Color.Blue, textDecoration = TextDecoration.Underline,modifier = Modifier.clickable { navController.navigate(Screens.LoginPage.name) })
-                }else if(member.MemberName==""&&!changeNameisClicked){
+                }else if(member.MemberName==""&&!changeNameIsClicked){
                     //如果尚未命名
-                    Text(text = stringResource(R.string.click_to_give_name), color = Color.Gray, textDecoration = TextDecoration.Underline,modifier = Modifier.clickable { changeNameisClicked=true })
-                }else if(changeNameisClicked){
+                    Text(text = stringResource(R.string.click_to_give_name), color = Color.Gray, textDecoration = TextDecoration.Underline,modifier = Modifier.clickable { changeNameIsClicked=true })
+                }else if(changeNameIsClicked){
                     //如果已命名
                     member.MemberName= UdmtextFields( keyboardType = KeyboardType.Text, modifier = Modifier
                         .padding(end = 10.dp)
@@ -109,7 +107,7 @@ fun SettingPage(modifier: Modifier, navController: NavHostController) {
                         CoroutineScope(Dispatchers.Main).launch {
                             Retrofit.apiService.updateMember(member)
                             saveDataClass(context,"Member",member)
-                            changeNameisClicked=false
+                            changeNameIsClicked=false
                         }
                     }
                     //返回設定
@@ -118,7 +116,7 @@ fun SettingPage(modifier: Modifier, navController: NavHostController) {
                         navController.navigate(Screens.SettingPage.name)
                     }
                 } else{
-                    Text(text = member.MemberName,modifier = Modifier.clickable { changeNameisClicked=true})
+                    Text(text = member.MemberName,modifier = Modifier.clickable { changeNameIsClicked=true})
                 }
             }
             Text(text = stringResource(id = R.string.warning_distance)+":$sliderPosition"+stringResource(id = R.string.m))

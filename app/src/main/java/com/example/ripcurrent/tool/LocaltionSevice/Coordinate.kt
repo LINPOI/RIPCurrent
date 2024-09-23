@@ -10,6 +10,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import com.example.ripcurrent.Data.Coordinate
 import com.example.ripcurrent.R
 import com.example.ripcurrent.tool.LocaltionSevice.LocationService
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -19,11 +20,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.Locale
 
-data class Coordinate(
-    var lng: Double = 0.0,
-    var lat: Double = 0.0,
-    var address: String = ""
-)
 
 
 
