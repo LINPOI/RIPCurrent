@@ -9,7 +9,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 const val URL = "http://192.168.159.69/rip_current/"
 const val URL2 ="http://192.168.50.159/rip_current/"
-const val SELECTURL= URL2
+const val URL3 ="http://210.70.254.110/rip_current/"
+const val SELECTURL= URL3
 
 object Retrofit {
 
