@@ -10,11 +10,9 @@ import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.Body
-import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
-import retrofit2.http.Streaming
 
 interface ApiService {
     @Multipart
@@ -30,9 +28,6 @@ interface ApiService {
     suspend fun loginMember(@Body member: Member): Response<MemberResponse>
     @POST("member/modify")
     suspend fun updateMember(@Body member: Member): Response<MemberResponse>
-    @Streaming
-    @GET("photo/get/folder")
-    suspend fun getImages(): Response<ResponseBody>
     @POST("photo/get/folder/information")
     suspend fun getImagesInfo(@Body userReq: UserReq): Response<List<PhotoInfoResponse>>
     //按讚
