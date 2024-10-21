@@ -43,7 +43,7 @@
     <string name="direction">Direction</string>
     <string name="the_photo_you_selected_is_not_supported">The photo you selected is not supported</string>
     <string name="warning">Warning</string>
-    <string name="there_is_a_rip_current_occurring_nearby">There is a rip current occurring nearby</string>
+    <string name="there_is_a_rip_current_occurring_nearby">There are rip currents occurring nearby, located in:%1$s</string>
     <string name="distance">Distance</string>
     <string name="warning_distance">warning distance</string>
     <string name="m">m</string>

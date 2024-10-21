@@ -12,11 +12,6 @@ import android.media.RingtoneManager
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
-import androidx.annotation.RequiresApi
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -24,21 +19,10 @@ import com.example.ripcurrent.MainActivity
 import com.example.ripcurrent.R
 import com.example.ripcurrent.tool.savedataclass.saveDataClass
 
-@RequiresApi(Build.VERSION_CODES.TIRAMISU)
-@Composable
-fun NotificationButton() {
-    val context = LocalContext.current
-    //使用倒數計時器
-    Button(onClick = {
-        ShowNotification(context)
 
-    }) {
-        Text("Show Notification")
-    }
-}
-
-
-fun ShowNotification(context: Context) {
+fun ShowNotification(context: Context,location:String) {
+    val title= context.getString(R.string.warning)
+    val message=context.getString(R.string.there_is_a_rip_current_occurring_nearby,location)
     val RingType: Int = RingtoneManager.TITLE_COLUMN_INDEX
     createNotificationChannel(context)
     // 建立 Intent，用於啟動應用的主 Activity
@@ -55,8 +39,8 @@ fun ShowNotification(context: Context) {
     // 構建通知
     val builder = NotificationCompat.Builder(context, CHANNEL_ID)
         .setSmallIcon(R.drawable.ripcurrent)
-        .setContentTitle(context.getString(R.string.warning))
-        .setContentText(context.getString(R.string.there_is_a_rip_current_occurring_nearby))
+        .setContentTitle(title)
+        .setContentText(message)
         .setPriority(NotificationCompat.PRIORITY_MAX)
         .setContentIntent(pendingIntent)  // 設置 PendingIntent
         .setFullScreenIntent(pendingIntent, true)
@@ -91,8 +75,8 @@ fun ShowNotification(context: Context) {
     val mediaPlayer = MediaPlayer.create(context, RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
     // 使用對話框彈出 Alert
     val alertDialogBuilder = AlertDialog.Builder(context)
-    alertDialogBuilder.setTitle(context.getString(R.string.warning))
-    alertDialogBuilder.setMessage(context.getString(R.string.there_is_a_rip_current_occurring_nearby))
+    alertDialogBuilder.setTitle(title)
+    alertDialogBuilder.setMessage(message)
     alertDialogBuilder.setPositiveButton(context.getString(R.string.ok))
         { dialog, _ ->
             dialog.dismiss()

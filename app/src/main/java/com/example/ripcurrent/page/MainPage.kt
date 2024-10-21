@@ -1,6 +1,7 @@
 package com.example.ripcurrent.page
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.location.Location
 import android.util.Log
@@ -92,6 +93,7 @@ const val TIMESORT = 1
 const val LIKESORT = 2
 const val DISTANCESORT = 3
 
+@SuppressLint("NewApi")
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun MainPage(modifier: Modifier = Modifier, navController: NavHostController) {
@@ -131,10 +133,6 @@ fun MainPage(modifier: Modifier = Modifier, navController: NavHostController) {
         saveDataClass(context, "lat",lat.toString())
         saveDataClass(context, "address",address)
     }
-
-    var buttonBackColor by remember {
-        mutableStateOf(false)
-    }
     // UpdateNearToFar(photoInfo, coordinate)
     var distance by remember {
         mutableDoubleStateOf(0.0)
@@ -154,8 +152,8 @@ fun MainPage(modifier: Modifier = Modifier, navController: NavHostController) {
     distanceHint = readDataClass(context, "DistanceHint", 100f).toDouble()
     // Log.i("linpoi", "distance:$distance,distanceHint:$distanceHint")
     //給予要求
-    var userReq = readDataClass(context, "userReq") ?: UserReq()
-
+    val userReq = readDataClass(context, "userReq") ?: UserReq()
+    var recentLocation=""
     Log.i("UserReq", "userReq:${userReq}")
     LaunchedEffect(Unit) {
         allPhotoInfo=PhotoViewModel(context).photoInfo
@@ -173,7 +171,9 @@ fun MainPage(modifier: Modifier = Modifier, navController: NavHostController) {
         delay(10000)
     }
     // 更新距離
-    distance = Distance(allPhotoInfo, context)
+    distance = Distance(allPhotoInfo, context){
+        recentLocation=it
+    }
 
     LaunchedEffect(distanceHint, distance) {
         Log.e(
@@ -185,7 +185,7 @@ fun MainPage(modifier: Modifier = Modifier, navController: NavHostController) {
         if (con) {
             Log.e("linpoi", "ShowNotification")
             while (true) {
-                ShowNotification(context)
+                ShowNotification(context,recentLocation)
                 delay(180000)
             }
 
@@ -559,14 +559,9 @@ fun Search(string: String, list: List<PhotoInfoResponse>): SnapshotStateList<Pho
 }
 
 
-fun Distance(photoInfo: MutableList<PhotoInfoResponse>,context: Context): Double {
+fun Distance(photoInfo: MutableList<PhotoInfoResponse>,context: Context,location:(String)->Unit={}): Double {
     try {
-//        val lat1 = 23.575355351988794
-//        val lng1 = 119.58252274222751
-//        val lat =
-//            if (photoInfo.isNotEmpty()) photoInfo[0].PhotoCoordinate_lat.toDoubleOrNull() else -1.0
-//        val lng =
-//            if (photoInfo.isNotEmpty()) photoInfo[0].PhotoCoordinate_lng.toDoubleOrNull() else -1.0
+        var minLocation=""
         val myLat=readDataClass(context,"lat","lat").toDoubleOrNull()?:0.0
         val myLng=readDataClass(context,"lng","lng").toDoubleOrNull()?:0.0
         Log.e("測試中","myLat:$myLat,myLng:$myLng")
@@ -578,12 +573,12 @@ fun Distance(photoInfo: MutableList<PhotoInfoResponse>,context: Context): Double
             lng = lng ?: -1.0
             val value = calculateDistance(lat, lng, myLat, myLng)
             if (value < distance) {
+                minLocation=it.PhotoLocation
                 distance = value
             }
         }
-
-
         Log.i("測試中", "Distance:${distance}")
+        location( if(minLocation.length > 8) minLocation.substring(8) else minLocation)
         return distance
     } catch (e: Exception) {
         Log.e("linpoi", "Distance:${e}")
