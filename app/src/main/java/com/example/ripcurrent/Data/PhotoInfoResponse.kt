@@ -7,5 +7,6 @@ data class PhotoInfoResponse(
     var PhotoFilming_time: String = "",
     var PhotoPosition: String = "",
     var LikeQuantity:Int=0,
+    var LocationCode:String="",
     var IsLike:Boolean= false,
 )

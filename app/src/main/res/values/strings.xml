@@ -50,4 +50,5 @@
     <string name="time_priority">time priority</string>
     <string name="like_first">Like first</string>
     <string name="distance_first">distance first</string>
+    <string name="attention_this_rip_current_is_within_the_warning_range">Attention!! This rip current is within the warning range</string>
 </resources>

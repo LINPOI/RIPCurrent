@@ -10,9 +10,11 @@ import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
+import retrofit2.http.Query
 
 interface ApiService {
     @Multipart
@@ -36,6 +38,14 @@ interface ApiService {
     //收回
     @POST("photo/other/delike")
     suspend fun delikePhoto(@Body likePhoto: LikePhoto): Response<MemberResponse>
+    @GET("photo/get/folder/select")
+    suspend fun getImagesInfo(
+        @Query("fsm") fsm: Int? =null,//回傳目標
+        @Query("fcn") fcn: String?=null,//資料夾代碼
+        @Query("fs") fs: Int?=null,//排序方式
+        @Query("lon") lon: String?=null,//經度
+        @Query("lat") lat: String?=null,//緯度
+    ): Response<List<PhotoInfoResponse>>
 //    // 學生資料查詢，使用Post，寄送參數，回傳參數
 //    @POST("query/verify") suspend fun authentication(@Body apiService: ApiService): Response<StudentInformationResponse>
 //

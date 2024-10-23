@@ -50,4 +50,5 @@
     <string name="time_priority">時間優先</string>
     <string name="like_first">按讚優先</string>
     <string name="distance_first">距離優先</string>
+    <string name="attention_this_rip_current_is_within_the_warning_range">注意!!此離岸流在警示範圍內</string>
 </resources>

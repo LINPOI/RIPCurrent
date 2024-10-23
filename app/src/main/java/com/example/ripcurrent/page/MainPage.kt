@@ -1,7 +1,6 @@
 package com.example.ripcurrent.page
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Context
 import android.location.Location
 import android.util.Log
@@ -44,6 +43,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
@@ -69,7 +69,7 @@ import com.example.ripcurrent.tool.custmozed.UdmtextFields
 import com.example.ripcurrent.tool.hint.backGroundHint.ShowNotification
 import com.example.ripcurrent.tool.http.Retrofit
 import com.example.ripcurrent.tool.http.SELECTURL
-import com.example.ripcurrent.tool.pictureTool.PhotoViewModel
+import com.example.ripcurrent.tool.pictureTool.RipCurrentPhotoViewModel
 import com.example.ripcurrent.tool.savedataclass.readDataClass
 import com.example.ripcurrent.tool.savedataclass.saveDataClass
 import com.example.ripcurrent.tool.zipTool.listFilesInDirectory
@@ -93,7 +93,7 @@ const val TIMESORT = 1
 const val LIKESORT = 2
 const val DISTANCESORT = 3
 
-@SuppressLint("NewApi")
+//修改開始
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun MainPage(modifier: Modifier = Modifier, navController: NavHostController) {
@@ -137,8 +137,11 @@ fun MainPage(modifier: Modifier = Modifier, navController: NavHostController) {
     var distance by remember {
         mutableDoubleStateOf(0.0)
     }
-    var distanceHint by remember {
+    var distanceHintRange by remember {
         mutableDoubleStateOf(0.0)
+    }
+    var distanceHint by remember {
+        mutableStateOf(false)
     }
     var openSort by remember {
         mutableStateOf(false)
@@ -149,14 +152,14 @@ fun MainPage(modifier: Modifier = Modifier, navController: NavHostController) {
 //    var locations by remember {
 //        mutableStateOf(mutableListOf<String>())
 //    }
-    distanceHint = readDataClass(context, "DistanceHint", 100f).toDouble()
+    distanceHintRange = readDataClass(context, "DistanceHint", 100f).toDouble()
     // Log.i("linpoi", "distance:$distance,distanceHint:$distanceHint")
     //給予要求
     val userReq = readDataClass(context, "userReq") ?: UserReq()
     var recentLocation=""
     Log.i("UserReq", "userReq:${userReq}")
     LaunchedEffect(Unit) {
-        allPhotoInfo=PhotoViewModel(context).photoInfo
+        allPhotoInfo=RipCurrentPhotoViewModel(context).photoInfo
         photoInfo=allPhotoInfo
         // 更新 coordinate
         if (locationPermissionState.status.isGranted) {
@@ -175,12 +178,17 @@ fun MainPage(modifier: Modifier = Modifier, navController: NavHostController) {
         recentLocation=it
     }
 
-    LaunchedEffect(distanceHint, distance) {
+    LaunchedEffect(distanceHintRange, distance) {
         Log.e(
             "測試中",
-            "distance:$distance,distanceHint:$distanceHint,alertState:$alertState"
+            "distance:$distance,distanceHint:$distanceHintRange,alertState:$alertState"
         )
-        val con = distanceHint >= distance && alertState
+        if(distanceHintRange >= distance){
+            distanceHint=true
+        }else{
+            distanceHint=false
+        }
+        val con = distanceHint && alertState
         Log.e("linpoi",con.toString())
         if (con) {
             Log.e("linpoi", "ShowNotification")
@@ -242,21 +250,21 @@ fun MainPage(modifier: Modifier = Modifier, navController: NavHostController) {
                     if (openSort) {
                         OutlinedButton(onClick = {
                             saveDataClass(context, "Sequence", TIMESORT)
-                            photoInfo = PhotoViewModel(context).photoInfo
+                            photoInfo = RipCurrentPhotoViewModel(context).photoInfo
                             navController.navigate(Screens.MainPage.name)
                         }) {
                             Text(text = stringResource(R.string.time_priority))
                         }
                         OutlinedButton(onClick = {
                             saveDataClass(context, "Sequence", LIKESORT)
-                            photoInfo = PhotoViewModel(context).photoInfo
+                            photoInfo = RipCurrentPhotoViewModel(context).photoInfo
                             navController.navigate(Screens.MainPage.name)
                         }) {
                             Text(text = stringResource(R.string.like_first))
                         }
                         OutlinedButton(onClick = {
                             saveDataClass(context, "Sequence", DISTANCESORT)
-                            photoInfo = PhotoViewModel(context).photoInfo
+                            photoInfo = RipCurrentPhotoViewModel(context).photoInfo
                             navController.navigate(Screens.MainPage.name)
                         }) {
                             Text(text = stringResource(R.string.distance_first))
@@ -326,6 +334,7 @@ fun MainPage(modifier: Modifier = Modifier, navController: NavHostController) {
                     index,
                     navController,
                     userReq,
+                    distanceHintRange,
                     imageClick = {
                         CoroutineScope(Dispatchers.Main).launch {
                             navController.navigate(Screens.ShowImagePage.name)
@@ -344,16 +353,11 @@ fun MainPage(modifier: Modifier = Modifier, navController: NavHostController) {
                 )
             }
             item {
-//                Text(text = "$distance")
-//                Text(text = "$coordinate")
-//                Button(onClick = {photoInfo=PhotoViewModel(context).photoInfo}) {
-//                    Text(text = "d")
-//                }
                 ReStartButton(context) {
 
                     CoroutineScope(Dispatchers.Main).launch {
                         // NearToFar(photoInfo,coordinate)
-                        distanceHint = readDataClass(context, "DistanceHint", 100f).toDouble()
+                        distanceHintRange = readDataClass(context, "DistanceHint", 100f).toDouble()
                         navController.navigate(Screens.MainPage.name)
                         saveDataClass(context, "Item", 0)
                         update = true
@@ -386,10 +390,13 @@ fun RipCurrentInfo(
     index: Int,
     navController: NavHostController,
     userReq: UserReq,
+    distanceHintRange: Double,
     imageClick: () -> Unit = {},
     likeClick: () -> Unit = {}
 ) {
     val context = LocalContext.current
+    val hint=distanceHintRange>=calculateDistance(photoInfo.PhotoCoordinate_lat.toDouble(),photoInfo.PhotoCoordinate_lng.toDouble(),context)
+    Color(255, 0, 0, 136)
     val url = "${SELECTURL}photo/get/one/"
     val title =
         if (photoInfo.PhotoLocation.length > 8) photoInfo.PhotoLocation.substring(8) else photoInfo.PhotoLocation
@@ -397,11 +404,16 @@ fun RipCurrentInfo(
     Column(
         Modifier
             .padding(2.dp)
+            .background(
+                if (hint) Color(255, 0, 0, 136) else MaterialTheme.colorScheme.background,
+                shape = MaterialTheme.shapes.large
+            )
             .border(
                 1.5.dp,
                 MaterialTheme.colorScheme.onBackground,
                 shape = MaterialTheme.shapes.large
             )
+
     ) {
         Title(title)
         Row(
@@ -434,7 +446,6 @@ fun RipCurrentInfo(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.End
                 ) {
-                    val isLike = photoInfo.IsLike
                     var like by remember {
                         mutableStateOf(photoInfo.IsLike)
                     }
@@ -489,6 +500,10 @@ fun RipCurrentInfo(
                     fontStyle = FontStyle.Italic,
                     fontSize = 20.sp
                 )
+                if(hint){
+                    Text(stringResource(R.string.attention_this_rip_current_is_within_the_warning_range), color = Color(255, 245, 98, 255), fontSize = 20.sp)
+                }
+
 
             }
         }
@@ -524,28 +539,7 @@ fun Title(text: String, modifier: Modifier = Modifier) {
     }
 }
 
-/*
-由進至遠選擇按鈕(已刪除)
-// */
-//@Composable
-//fun NearToFarButton(
-//    photoInfo: MutableList<PhotoInfoResponse>,
-//    coordinate: Coordinate,
-//    buttonBackColor: Boolean,
-//    TODO: () -> Unit = {}
-//) {
-//    OutlinedButton(
-//        colors = ButtonDefaults.outlinedButtonColors(containerColor = if (buttonBackColor) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.background),
-//        onClick = {
-//            NearToFar(photoInfo, coordinate)
-//            TODO()
-//        }) {
-//        Text(
-//            text = stringResource(R.string.near_to_far),
-//            color = if (buttonBackColor) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.primary
-//        )
-//    }
-//}
+
 
 /*
 處理搜尋功能
@@ -562,16 +556,15 @@ fun Search(string: String, list: List<PhotoInfoResponse>): SnapshotStateList<Pho
 fun Distance(photoInfo: MutableList<PhotoInfoResponse>,context: Context,location:(String)->Unit={}): Double {
     try {
         var minLocation=""
-        val myLat=readDataClass(context,"lat","lat").toDoubleOrNull()?:0.0
-        val myLng=readDataClass(context,"lng","lng").toDoubleOrNull()?:0.0
-        Log.e("測試中","myLat:$myLat,myLng:$myLng")
+
+//        Log.e("測試中","myLat:$myLat,myLng:$myLng")
         var distance = Double.MAX_VALUE
         photoInfo.forEach {
             var lat = it.PhotoCoordinate_lat.toDoubleOrNull()
             var lng = it.PhotoCoordinate_lng.toDoubleOrNull()
             lat = lat ?: -1.0
             lng = lng ?: -1.0
-            val value = calculateDistance(lat, lng, myLat, myLng)
+            val value = calculateDistance(lat, lng,context)
             if (value < distance) {
                 minLocation=it.PhotoLocation
                 distance = value
@@ -586,17 +579,19 @@ fun Distance(photoInfo: MutableList<PhotoInfoResponse>,context: Context,location
     return -1.0
 }
 
-fun calculateDistance(lat1: Double, lng1: Double, lat2: Double, lng2: Double): Double {
+fun calculateDistance(lat1: Double, lng1: Double,context: Context): Double {
+    val myLat=readDataClass(context,"lat","lat").toDoubleOrNull()?:0.0
+    val myLng=readDataClass(context,"lng","lng").toDoubleOrNull()?:0.0
     val earthRadius = 6372.8 // Radius of the Earth in kilometers
-    Log.e("linpoi", "$lat1,$lng1, $lat2,$lng2")
-    val dLat = Math.toRadians(lat2 - lat1)
-    val dLng = Math.toRadians(lng2 - lng1)
-    val originLat = Math.toRadians(lat1);
-    val destinationLat = Math.toRadians(lat2);
+    Log.e("linpoi", "$lat1,$lng1, $myLat,$myLng")
+    val dLat = Math.toRadians(myLat - lat1)
+    val dLng = Math.toRadians(myLng - lng1)
+    val originLat = Math.toRadians(lat1)
+    val destinationLat = Math.toRadians(myLat)
     val a =
         sin(dLat / 2).pow(2.toDouble()) + sin(dLng / 2).pow(2.toDouble()) * cos(originLat) * cos(
             destinationLat
-        );
+        )
     val c = 2 * asin(sqrt(a));
     return earthRadius * c * 1000 // Distance in meters
 }

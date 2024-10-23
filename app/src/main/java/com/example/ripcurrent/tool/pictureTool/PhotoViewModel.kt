@@ -44,7 +44,7 @@ class PhotoViewModel(context: Context)  : ViewModel() {
                 }
                 val body = response.body()
                 body?.forEach {
-                    photoInfo.add(PhotoInfoResponse(it.PhotoName,it.PhotoLocation, it.PhotoCoordinate_lng, it.PhotoCoordinate_lat, it.PhotoFilming_time, it.PhotoPosition,it.LikeQuantity,it.IsLike))
+                    photoInfo.add(PhotoInfoResponse(it.PhotoName,it.PhotoLocation, it.PhotoCoordinate_lng, it.PhotoCoordinate_lat, it.PhotoFilming_time, it.PhotoPosition,it.LikeQuantity,"", it.IsLike))
                 }
             } catch (e: Exception) {
                 Log.e("linpoi", e.message!!)
