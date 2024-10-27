@@ -33,16 +33,21 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             RipcurrentTheme {
-               AppNavigator()
+                Door()
             }
         }
     }
+}
+@Composable
+fun Door(){
+    AppNavigator()
+    //ImageClassifierScreenX()
 }
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     RipcurrentTheme {
-       AppNavigator()
+        Door()
     }
 }

@@ -51,54 +51,53 @@ android {
 }
 
 dependencies {
-
+    implementation (libs.tensorflow.lite)  // TFLite 基礎庫
 
     //compose
-    implementation("com.google.accompanist:accompanist-permissions:0.31.1-alpha")
-    implementation ("androidx.core:core-ktx:1.7.0")
-    implementation ("androidx.compose.ui:ui:1.6.7")
-    implementation ("androidx.compose.material:material:1.6.7")
-    implementation ("androidx.compose.ui:ui-tooling-preview:1.6.7")
-    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.4.1")
-    implementation ("androidx.activity:activity-compose:1.4.0")
+    implementation(libs.accompanist.permissions.v0311alpha)
+    implementation (libs.androidx.core.ktx.v170)
+    implementation (libs.ui)
+    implementation (libs.androidx.material)
+    implementation (libs.ui.tooling.preview)
+    implementation (libs.androidx.lifecycle.runtime.ktx.v241)
+    implementation (libs.androidx.activity.compose.v140)
     //viewmodel
-    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.0")
-    implementation ("androidx.activity:activity-compose:1.3.1")
-    implementation ("androidx.compose.runtime:runtime-livedata:1.6.7")
+    implementation (libs.androidx.lifecycle.viewmodel.ktx)
+    implementation (libs.androidx.activity.compose.v131)
+    implementation (libs.androidx.runtime.livedata)
     //google location
-    implementation("com.google.android.gms:play-services-location:21.1.0")
-    implementation("com.google.accompanist:accompanist-permissions:0.35.0-alpha")
+    implementation(libs.play.services.location.v2110)
+    implementation(libs.google.accompanist.permissions)
     //google map
-    implementation ("com.google.maps.android:maps-compose:2.11.4")
-    implementation ("com.google.android.gms:play-services-maps:18.1.0")
-    implementation ("com.google.android.gms:play-services-location:21.2.0")
+    implementation (libs.maps.compose)
+    implementation (libs.play.services.maps)
+    implementation (libs.gms.play.services.location)
 
     // Retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("com.squareup.okhttp3:okhttp:4.0.1")
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.okhttp)
     // Moshi
-    implementation("com.squareup.moshi:moshi:1.14.0")
-    implementation("com.squareup.moshi:moshi-kotlin:1.14.0")
-    implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
+    implementation(libs.moshi)
+    implementation(libs.moshi.kotlin)
+    implementation(libs.converter.moshi)
     // OKHttp Interceptor
-    implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
+    implementation(libs.logging.interceptor)
     //繪圖用
-    implementation ("io.coil-kt:coil-compose:2.5.0")
-    implementation ("io.getstream:sketchbook:1.0.4")
+    implementation (libs.coil.compose)
+    implementation (libs.sketchbook)
     //分頁
     implementation(libs.androidx.navigation.compose)
     //儲存用
-    implementation ("com.google.code.gson:gson:2.10.1")
+    implementation (libs.gson)
     implementation(libs.firebase.auth)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.work.runtime.ktx)
     //camera
-    val cameraxVersion = "1.3.3"
-    implementation ("androidx.camera:camera-core:${cameraxVersion}")
-    implementation ("androidx.camera:camera-camera2:${cameraxVersion}")
-    implementation ("androidx.camera:camera-view:${cameraxVersion}")
-    implementation ("androidx.camera:camera-lifecycle:$cameraxVersion")
+    implementation (libs.androidx.camera.core)
+    implementation (libs.androidx.camera.camera2)
+    implementation (libs.androidx.camera.view)
+    implementation (libs.androidx.camera.lifecycle)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

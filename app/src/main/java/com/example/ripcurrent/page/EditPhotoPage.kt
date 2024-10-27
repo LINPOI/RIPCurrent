@@ -14,8 +14,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Icon
@@ -115,7 +115,7 @@ fun EditPhotoPage(modifier: Modifier, navController: NavHostController) {
                                 })
                         //修復
                         Icon(
-                            Icons.AutoMirrored.Filled.ArrowForward,
+                            Icons.Filled.ArrowForward,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onPrimary,
                             modifier = Modifier

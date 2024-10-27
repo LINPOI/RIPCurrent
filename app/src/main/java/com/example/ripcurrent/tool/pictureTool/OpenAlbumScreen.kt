@@ -1,5 +1,6 @@
 package com.example.ripcurrent.tool.pictureTool
 
+import ImageClassifier
 import android.content.Context
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -18,10 +19,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.twotone.AddCircle
-import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -31,7 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.ripcurrent.R
@@ -44,12 +42,13 @@ import com.example.ripcurrent.tool.savedataclass.saveDataClass
 fun OpenAlbumScreen(
     imageCapture: ImageCapture, context: Context,
     modifier: Modifier = Modifier,
-    navController: NavHostController,
+    navController: NavHostController=NavHostController(context),
 ) {
 
     //容納圖片的變數
     var selectedImage by remember { mutableStateOf<ImageBitmap?>(null) }
     var position by remember { mutableStateOf("") }
+    val imageClassifier = remember { ImageClassifier(context,"model.tflite") }
     val singleLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
         onResult = { uri: Uri? ->
@@ -63,7 +62,17 @@ fun OpenAlbumScreen(
 
                         Log.i("0123", "新增圖片")
                         //解碼圖片
-                        val bitmap = BitmapFactory.decodeStream(stream)
+                        var bitmap = BitmapFactory.decodeStream(stream)
+                        /// 使用 ImageClassifier 進行辨識
+                        val targetFound = imageClassifier.classify(bitmap)
+
+                        // 根據分類結果顯示訊息
+                        if (targetFound) {
+                            Log.i("ImageClassifier", "目標已發現")
+                            bitmap=imageClassifier.classifyAndMark(bitmap)
+                        } else {
+                            Log.i("ImageClassifier", "未發現目標")
+                        }
                         saveDataClass(context,"updatePicture",bitmap)
                         //丟回圖片變數
                         selectedImage = bitmap?.asImageBitmap()
@@ -92,28 +101,15 @@ fun OpenAlbumScreen(
         modifier = modifier
             .fillMaxWidth()
             .padding(bottom = 0.dp, start = 3.dp),
-        horizontalArrangement = Arrangement.Absolute.SpaceBetween,
+        horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically
     ) {
+        Icon(painter = painterResource(id =  R.drawable.photo_library_24px), contentDescription = null,modifier = Modifier.padding(start = 25.dp).clickable {try {
+            singleLauncher.launch(PickVisualMediaRequest())
+        }catch (e:Exception){
+            Log.e("linpoi", "Error: OpenAlbumScreen${e.message}")
 
-        ExtendedFloatingActionButton(
-            modifier = Modifier
-                .padding(end = 10.dp, start = 20.dp)
-                .size(70.dp)
-            ,
-            shape = MaterialTheme.shapes.extraSmall,
-            onClick = {
-                try {
-                    singleLauncher.launch(PickVisualMediaRequest())
-                }catch (e:Exception){
-                    Log.e("linpoi", "Error: OpenAlbumScreen${e.message}")
-
-                }
-
-            }
-        ) {
-            Text(text = stringResource(R.string.open_photo_album), )
-        }
+        }  })
         Icon(
             Icons.TwoTone.AddCircle , contentDescription = null,
             modifier = Modifier

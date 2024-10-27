@@ -30,9 +30,11 @@ class RipCurrentPhotoViewModel(context: Context) : ViewModel() {
 
         try{
             val sequence= readDataClass(context,"Sequence",3)
-            val response = Retrofit.apiService.getImagesInfo(fsm = FSM_ONLY_JSON, fs = sequence)
+            val lat=readDataClass(context,"lat","lat").toFloatOrNull()?:0.0f
+            val lng=readDataClass(context,"lng","lng").toFloatOrNull()?:0.0f
+            val response = Retrofit.apiService.getImagesInfo(fsm = FSM_ONLY_JSON, fs = sequence, lat = lat.toString(), lon = lng.toString())
             val body = response.body()
-            body?.reversed()?.forEach{
+            body?.forEach{
                 photoInfo.add(PhotoInfoResponse(it.PhotoName,it.PhotoLocation, it.PhotoCoordinate_lng, it.PhotoCoordinate_lat, it.PhotoFilming_time, it.PhotoPosition,it.LikeQuantity,"", it.IsLike))
             }
         } catch (e: Exception) {
