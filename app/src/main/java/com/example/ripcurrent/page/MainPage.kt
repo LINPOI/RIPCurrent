@@ -10,6 +10,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -29,6 +30,7 @@ import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.twotone.Search
 import androidx.compose.material.icons.twotone.Settings
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -50,6 +52,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.input.KeyboardType
@@ -67,7 +70,6 @@ import com.example.ripcurrent.Screens
 import com.example.ripcurrent.tool.LocaltionSevice.LocationService
 import com.example.ripcurrent.tool.backHandler.DoubleBackHandler
 import com.example.ripcurrent.tool.currentTime.formatDateTime
-import com.example.ripcurrent.tool.custmozed.UdmImage
 import com.example.ripcurrent.tool.custmozed.UdmtextFields
 import com.example.ripcurrent.tool.hint.backGroundHint.ShowNotification
 import com.example.ripcurrent.tool.http.Retrofit
@@ -217,13 +219,14 @@ fun MainPage(modifier: Modifier = Modifier, navController: NavHostController) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(start = 10.dp, bottom = 10.dp),
+                        .padding(start = 3.dp, bottom = 10.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
                     //設定
                     Icon(imageVector = Icons.TwoTone.Settings, contentDescription = null, modifier
-                        .size(40.dp)
+                        .size(50.dp)
+                        .padding(top=7.dp)
                         .clickable {
                             navController.navigate(Screens.SettingPage.name)
                             focusManager.clearFocus()
@@ -242,7 +245,8 @@ fun MainPage(modifier: Modifier = Modifier, navController: NavHostController) {
                     //搜尋按鈕
                     Icon(imageVector = Icons.TwoTone.Search, contentDescription = null,
                         modifier
-                            .size(40.dp)
+                            .size(50.dp)
+                            .padding(top=5.dp)
                             .clickable {
                                 //與1.相同
                                 photoInfo = Search(searchLocation, allPhotoInfo)
@@ -257,6 +261,7 @@ fun MainPage(modifier: Modifier = Modifier, navController: NavHostController) {
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center
                 ) {
+                    //排序方式
                     if (openSort) {
                         OutlinedButton(onClick = {
                             saveDataClass(context, "Sequence", TIMESORT)
@@ -290,7 +295,7 @@ fun MainPage(modifier: Modifier = Modifier, navController: NavHostController) {
                         contentDescription = null,
                         modifier = Modifier
                             .weight(1f)
-                            .padding(start = 10.dp)
+                            .padding(start = 20.dp)
                             .wrapContentWidth(Alignment.Start)
                             .clickable {
                                 CoroutineScope(Dispatchers.Main).launch {
@@ -316,31 +321,9 @@ fun MainPage(modifier: Modifier = Modifier, navController: NavHostController) {
 
             }
         },
-        bottomBar = {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .border(0.5.dp, MaterialTheme.colorScheme.onBackground),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                UdmImage(imageResource = R.drawable.camera) {
-                    navController.navigate(Screens.CameraPage.name)
-                }
-                OutlinedButton(modifier = Modifier
-                    .size(width = 230.dp, height = 30.dp)
-                    .background(MaterialTheme.colorScheme.background),
-                    onClick = { navController.navigate(Screens.MainPage.name) }) {
 
-                }
-                UdmImage(imageResource = R.drawable.setting) {
-                    navController.navigate(Screens.SettingPage.name)
-                }
-
-            }
-        }
     ) { pad ->
-
+    Box(modifier = Modifier.fillMaxSize()){
         LazyColumn(
             modifier
                 .fillMaxSize()
@@ -393,6 +376,21 @@ fun MainPage(modifier: Modifier = Modifier, navController: NavHostController) {
             }
 
         }
+        //新增圖片
+        FloatingActionButton(
+            onClick = {
+                navController.navigate(Screens.CameraPage.name)
+            },
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+
+                .padding(end = 25.dp, bottom =40.dp)  // 邊距，讓按鈕離屏幕邊緣有一些距離
+                .size(60.dp)
+        ) {
+            Icon(painterResource(R.drawable.add_a_photo_24px), contentDescription = "Add a photo")
+        }
+    }
+
     }
     if (update) {
         coordinate = getCoordinate()
